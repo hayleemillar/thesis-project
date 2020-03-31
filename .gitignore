@@ -1,0 +1,35 @@
+# NODE #
+node_modules
+build
+npm-debug.log
+.env
+.DS_Store
+
+# DJANGO #
+*.log
+*.pot
+*.pyc
+__pycache__
+
+*.bak 
+
+# COVERAGE #
+htmlcov/ 
+.tox/ 
+.coverage 
+.coverage.* 
+.cache 
+.pytest_cache/ 
+nosetests.xml 
+coverage.xml 
+*.cover 
+.hypothesis/ 
+
+# ENVIRONMENTS # 
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/ 
