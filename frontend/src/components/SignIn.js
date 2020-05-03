@@ -50,17 +50,19 @@ class SignIn extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          E-mail:
-          <input type="email" placeholder="johndoe@site.com" onChange={this.handleEmailChange} required/>
-        </label>
-        <label>
-          Password:
-          <input type="text" placeholder="password" onChange={this.handlePasswChange} required/>
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div class="white-box">
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            E-mail:
+            <input type="email" placeholder="johndoe@site.com" onChange={this.handleEmailChange} required/>
+          </label>
+          <label>
+            Password:
+            <input type="text" placeholder="password" onChange={this.handlePasswChange} required/>
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
     );
   }
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
+  <title>roots -- explore video</title>
+
+  <!-- Compressed CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css"
+    integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+  
+
+  <!-- Compressed JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/js/foundation.min.js"
+    integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+</head>
+{% load static %}
+
+<body>
+  <div class="menu-bar" id="menu-bar">
+    <a data-toggle="menu-list"><img class="menu-hamburger" src="{% static 'frontend/img/hamburger.svg' %}"></a>
+    <div class="menu-signuplogin">
+      <a data-toggle="signup-dropdown">sign up</a> |
+      <a data-toggle="login-dropdown">log in</a>
+    </div>
+    <div class="menu-title">
+      <a href="/">roots</a>
+    </div>
+  </div>
+
+  <div class="page-body">
+      <h3 class="center space2">about roots</h3>
+      <div class="white-card">
+        Our primary goal is to provide a platform for content creators to monetize their online content. 
+        It is important for Roots to remain content type agnostic, as it aims to specifically provide creators with freedom and consumers with a unified platform for all of their subscriptions.
+      </div>
+  </div>
+
+  <div class="dropdown-pane" id="signup-dropdown" data-dropdown data-hover="true" data-hover-pane="true">
+    <form>
+      <label for="name"><b>name</b></label>
+      <input type="text" placeholder="jane doe" name="name" required>
+
+      <label for="email"><b>email</b></label>
+      <input type="text" placeholder="janedoe@url.com" name="email" required>
+
+      <button class="btn-submit center" type="button">sign up</button>
+    </form>
+  </div>
+
+  <div class="dropdown-pane" id="login-dropdown" data-dropdown data-hover="true" data-hover-pane="true">
+    <form>
+      <label for="email"><b>email</b></label>
+      <input type="text" placeholder="youremail@url.com" name="email" required>
+
+      <label for="password"><b>password</b></label>
+      <input type="text" placeholder="password123!" name="password" required>
+
+      <button class="btn-submit center" type="button">log in</button>
+    </form>
+  </div>
+
+  <div class="dropdown-pane menu-list" data-hover="true" data-hover-pane="true" id="menu-list" data-dropdown
+    data-auto-focus="true">
+    <ul class="vertical menu">
+      <li><a href="/explore-text/">text</a></li>
+      <li><a href="/explore-audio/">audio</a></li>
+      <li><a href="/explore-video/">video</a></li>
+      <div class="space"></div>
+      <li><a href="/about/">about</a></li>
+      <!-- <li><a href="#">how does it work?</a></li> -->
+    </ul>
+  </div>
+
+</body>
+<script type="text/javascript" src="{% static "frontend/main.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'frontend/style.css' %}">
+
+<script type="text/javascript">
+  $(document).foundation();
+</script>
+
+</html>
