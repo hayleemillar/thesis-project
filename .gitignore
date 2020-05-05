@@ -1,3 +1,6 @@
+# VS CODE #
+.vscode
+
 # NODE #
 node_modules
 build
