@@ -1,0 +1,20 @@
+name: thesis-project
+recipe: lemp
+config:
+  webroot: public
+
+services:
+  appserver:
+    config:
+      vhosts: nginx.conf
+
+tooling:
+  sf:
+    service: appserver
+    description: Run Symfony commands
+    cmd: bin/console
+
+events:
+  post-start:
+    - composer install
+

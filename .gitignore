@@ -1,38 +1,11 @@
-# VS CODE #
-.vscode
 
-# NODE #
-node_modules
-build
-npm-debug.log
-.env
-.DS_Store
-
-# DJANGO #
-*.log
-*.pot
-*.pyc
-__pycache__
-
-*.bak 
-
-# COVERAGE #
-htmlcov/ 
-.tox/ 
-.coverage 
-.coverage.* 
-.cache 
-.pytest_cache/ 
-nosetests.xml 
-coverage.xml 
-*.cover 
-.hypothesis/ 
-
-# ENVIRONMENTS # 
-.env 
-.venv 
-env/ 
-venv/ 
-ENV/ 
-env.bak/ 
-venv.bak/ 
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/src/.preload.php
+/var/
+/vendor/
+###< symfony/framework-bundle ###
