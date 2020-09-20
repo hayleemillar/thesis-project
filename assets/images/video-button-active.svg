@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_3" data-name="Rectangle 3" width="150" height="150" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="video_button" data-name="video button" transform="translate(-4)">
+    <circle id="Ellipse_1" data-name="Ellipse 1" cx="150" cy="150" r="150" transform="translate(4)" fill="#fff"/>
+    <g id="Group_7" data-name="Group 7" transform="translate(79 75)" clip-path="url(#clip-path)">
+      <path id="Path_9" data-name="Path 9" d="M148.443,26.863a3.181,3.181,0,0,0-3.146-.057L110.881,45.6V34.322a15.908,15.908,0,0,0-15.89-15.89H15.89A15.908,15.908,0,0,0,0,34.322v62.74a15.908,15.908,0,0,0,15.89,15.89h79.1a15.908,15.908,0,0,0,15.89-15.89V85.991L145.3,104.783a3.178,3.178,0,0,0,4.7-2.789v-72.4A3.177,3.177,0,0,0,148.443,26.863Zm-43.92,70.2a9.544,9.544,0,0,1-9.534,9.534H15.89a9.544,9.544,0,0,1-9.534-9.534V34.322a9.545,9.545,0,0,1,9.534-9.534h79.1a9.546,9.546,0,0,1,9.534,9.534Zm39.121-.424L110.881,78.75V52.839l32.763-17.887Z" transform="translate(0 9.216)" fill="#e2c044"/>
+    </g>
+  </g>
+</svg>
