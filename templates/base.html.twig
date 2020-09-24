@@ -1,23 +1,58 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            <link rel="stylesheet" href={{ asset('build/app.css') }}>
-            <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css"
-    integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}
-            <script src="https://code.jquery.com/jquery-3.5.0.min.js"
-    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/js/foundation.min.js"
-    integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
-        {% endblock %}
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			<link rel="stylesheet" href={{ asset('build/app.css') }}>
+			<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap" rel="stylesheet">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/motion-ui@1.2.3/dist/motion-ui.min.css"/>
+			<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+		{% endblock %}
+	</head>
+	<body>
+		<div class="menu-bar" id="menu-bar">
+			<a data-toggle="menu-list"><img class="menu-hamburger" src={{ asset('build/images/hamburger.svg') }}></a>
+			<div class="menu-signuplogin">
+				<a href="/registration">sign up</a>
+				|
+				<a href="login">log in</a>
+			</div>
+			<div class="menu-title">
+				<a href="/">roots</a>
+			</div>
+		</div>
+		<div class="dropdown-pane menu-list" data-hover="true" data-hover-pane="true" id="menu-list" data-dropdown data-auto-focus="true">
+			<ul class="vertical menu">
+				<li>
+					<a href={{ path('text') }}>text</a>
+				</li>
+				<li>
+					<a href={{ path('audio') }}>audio</a>
+				</li>
+				<li>
+					<a href={{ path('video') }}>video</a>
+				</li>
+				<div class="space"></div>
+				<li>
+					<a href={{ path('about') }}>about</a>
+				</li>
+				<!-- <li><a href="#">how does it work?</a></li> -->
+			</ul>
+		</div>
+
+		{% block body %}{% endblock %}
+		{% block javascripts %}
+			<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+			<script type="text/javascript">
+				$(document).foundation();
+			</script>
+		{% endblock %}
+	</body>
 </html>

@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	about roots
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+	<div class="page-body">
+		<h3 class="center space2">about roots</h3>
+		<div class="white-card">
+			Our primary goal is to provide a platform for content creators to monetize their online content. 
+						        It is important for Roots to remain content type agnostic, as it aims to specifically provide creators with freedom and consumers with a unified platform for all of their subscriptions.
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		$(document).foundation();
+	</script>
+{% endblock %}

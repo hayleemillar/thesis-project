@@ -1,10 +1,10 @@
 body {
-    background-color: #D3D0CB !important;
+    background-color: #EDE9E4 !important;
     font-family: 'Open Sans', sans-serif !important;
     font-style: normal !important;
     font-weight: 300 !important;
     font-size: 1.25em;
-    color: #364652;
+    color: #364652 !important;
 }
 
 h3 {
@@ -66,11 +66,15 @@ a:hover {
 
 label {
     display: block;
+    font-weight: 300 !important;
+    text-align: left;
 }
 
+
+/* 
 input[type=text] {
     border-radius: 0.3em;
-}
+} */
 
 .white-card {
     background-color: #FFFFFF;
@@ -80,17 +84,19 @@ input[type=text] {
 }
 
 .btn-submit {
-    background-color: #A8C7BB;
-    color: #FFFFFF;
+    background-color: #9DC7B7;
+    color: #364652;
+    font-size: 1.10rem;
     padding: 0.8em;
     padding-left: 1em;
     padding-right: 1em;
-    border-radius: 0.3em;
+    border-radius: 0.2em !important;
     opacity: 0.8;
     transition: 0.3s;
 }
 
 .btn-submit:hover {
+    background-color: #7CC7AA;
     opacity: 1.0;
     color: #364652;
 }
@@ -128,6 +134,13 @@ input[type=text] {
 
 hr {
     border-top: 1px solid #364652;
+}
+
+.center {
+    display: block !important;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 .space {
