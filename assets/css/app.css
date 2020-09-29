@@ -1,50 +1,60 @@
 body {
     background-color: #EDE9E4 !important;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    color: #364652;
+}
+
+body * {
     font-family: 'Open Sans', sans-serif !important;
+    font-style: normal;
+    font-weight: 300;
+    color: #364652 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-style: normal !important;
     font-weight: 300 !important;
-    font-size: 1.25em;
-    color: #364652 !important;
 }
 
-h3 {
-    font-style: normal !important;
-    font-weight: 300 !important;
+.bold {
+    font-weight: 400 !important;
 }
 
-a {
-    color: #364652 !important;
+a:focus {
+    outline: none !important;
 }
 
-a:hover {
-    color: #364652 !important;
+.menu-hover {
+    transition: 0.3s;
+    padding: 0.7rem 1rem !important;
+}
+
+.menu-hover:hover {
+    border: 2px solid #E2C044;
+    border-radius: 6px;
 }
 
 .small-text {
     font-size: 0.8em;
 }
 
-.menu-bar {
-    background-color: #FFFFFF !important;
-    width: 100%;
-    min-width: 40em;
-    height: 3em;
-    display: inline-block;
+.top-bar,
+.dropdown {
+    background-color: #fefefe !important;
 }
 
-.menu-hamburger {
-    height: 3em;
-    float: left;
-    padding: 0.5em;
-}
-
-.menu-title {
-    text-align: center;
-    padding: 0.875em;
+.menu-text {
+    font-size: 1.25rem;
 }
 
 .menu-signuplogin {
-    font-size: 0.75em;
     text-decoration: none;
     float: right;
     padding: 1.125em;
@@ -58,10 +68,24 @@ a:hover {
     color: #E2C044;
 }
 
+.menu-hamburger {
+    padding-right: 10px;
+    height: 2rem;
+}
+
+.title-bar {
+    background-color: #fefefe !important;
+    width: 100% !important;
+}
+
+
+/* 
+.menu-icon {
+    color: #364652 !important;
+} */
+
 .page-body {
     width: 100%;
-    min-width: 40em;
-    padding: 5em;
 }
 
 label {
@@ -93,6 +117,7 @@ input[type=text] {
     border-radius: 0.2em !important;
     opacity: 0.8;
     transition: 0.3s;
+    margin-top: 30px;
 }
 
 .btn-submit:hover {
@@ -118,18 +143,6 @@ input[type=text] {
 
 .dropdown-pane {
     border-radius: 0.5em;
-}
-
-.menu-list {
-    width: auto;
-}
-
-.menu li {
-    border-radius: 0.3em;
-}
-
-.menu li a:hover {
-    color: #A8C7BB;
 }
 
 hr {
@@ -163,15 +176,19 @@ hr {
     display: flex;
     justify-content: space-between;
     text-align: center;
-    width: 100%;
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2rem;
 }
 
 .audio-button {
-    width: 12em;
-    height: 12em;
+    width: 15em;
+    height: 15em;
     background: url("../images/audio-button.svg") no-repeat;
     background-size: 100%;
     transition: 1.0s;
+    margin-left: 20px;
 }
 
 .audio-button:hover {
@@ -180,11 +197,12 @@ hr {
 }
 
 .text-button {
-    width: 12em;
-    height: 12em;
+    width: 15em;
+    height: 15em;
     background: url("../images/text-button.svg") no-repeat;
     background-size: 100%;
     transition: 1.0s;
+    margin-right: 20px;
 }
 
 .text-button:hover {
@@ -193,16 +211,54 @@ hr {
 }
 
 .video-button {
-    width: 12em;
-    height: 12em;
+    width: 15em;
+    height: 15em;
     background: url("../images/video-button.svg") no-repeat;
     background-size: 100%;
     transition: 1.0s;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .video-button:hover {
     background: url("../images/video-button-active.svg") no-repeat;
     background-size: 100%;
+}
+
+.jumbo-yellow {
+    background-color: #E2C044;
+    height: auto;
+    padding: 2rem 4rem;
+    padding-bottom: 4rem;
+}
+
+.jumbo-green {
+    background-color: #9DC7B7;
+    height: auto;
+    padding: 2rem 4rem;
+    padding-bottom: 4rem;
+}
+
+.launch-signup {
+    background-color: #fefefe;
+    padding: 16px 32px;
+    border-radius: 6px;
+}
+
+.launch-signup:hover {
+    /* todo */
+    padding: 16px 32px;
+    border-radius: 6px;
+}
+
+.cards {
+    display: flex;
+}
+
+.footer {
+    margin-top: 5rem;
+    width: 100%;
+    text-align: center;
 }
 
 

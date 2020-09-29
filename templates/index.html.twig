@@ -1,33 +1,98 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-	roots
+	roots homepage
 {% endblock %}
-
 
 {% block body %}
 	{{ parent() }}
 
-	{# 
-		{% if app.user != null %}
-		{% endif %}
-	#}
-
 	<div class="page-body">
-		<h3>A platform empowering the individual creator.</h3>
-		<p class="space3">Creators own their content and make money on their terms.<br>
-			Your subscriptions, all in one place.</p>
 
-		<div class="center">
+		<div class="jumbo-yellow">
+			<h4>What is Roots?</h4>
+			<h1>A platform empowering the individual creator.</h1>
+			<h4 class="space3">Creators own their content and monetize it on their terms.<br>
+				Your subscriptions, all in one place.</h4>
+			<button class="launch-signup">Let's go!</button>
+		</div>
+
+		<div style="padding: 4rem;">
+			<h5 class="bold">Begin your journey by picking one of the following content pathways to explore: text, video, or audio.</h5>
+
 			<div class="circle-buttons">
 				<a href={{ path('text') }} class="text-button"></a>
 				<a href={{ path('video') }} class="video-button"></a>
 				<a href={{ path('audio') }} class="audio-button"></a>
 			</div>
 		</div>
-	</div>
 
-	<div class="page-body" id="index-app"></div>
+		<div class="jumbo-green">
+			<h3 class="space bold">reviews from creators.</h3>
+			<div class="space3 cards">
+				<div class="card" style="width: 300px;margin-right:40px;">
+					<div class="card-section">
+						<p>"I love how easy-to-use Roots is! I was able to integrate it into my website easily."</p>
+					</div>
+					<img src={{ asset('build/images/alexis-rose.jpg') }}>
+					<div class="card-divider">
+						<h4 class="center">Alexis Rose</h4>
+					</div>
+				</div>
+				<div class="card" style="width: 300px;">
+					<div class="card-section">
+						<p>"Roots gave me a way to do what I love while making a living."</p>
+					</div>
+					<img src={{ asset('build/images/patrick-brewer.jpg') }}>
+					<div class="card-divider">
+						<h4 class="center">Patrick Brewer</h4>
+					</div>
+				</div>
+				<div class="card" style="width: 300px;margin-left:40px;">
+					<div class="card-section">
+						<p>"Roots keeps my fans happy with easily-accessibly monetized content using tiers."</p>
+					</div>
+					<img src={{ asset('build/images/johnny-rose.jpg') }}>
+					<div class="card-divider">
+						<h4 class="center">Johnny Rose</h4>
+					</div>
+				</div>
+			</div>
+
+			<h3 class="space bold" style="text-align:right;">reviews from users.</h3>
+			<div class="space3 cards">
+				<div class="card" style="width: 300px;margin-right:40px;">
+					<div class="card-section">
+						<p>"All of my subscriptions are in one place. One click and I have the content I want!"</p>
+					</div>
+					<div class="card-divider">
+						<h4 class="center">Jane Doe</h4>
+					</div>
+				</div>
+				<div class="card" style="width: 300px;">
+					<div class="card-section">
+						<p>"The tiers option makes supporting my favorite creators easier."</p>
+					</div>
+					<div class="card-divider">
+						<h4 class="center">John Smith</h4>
+					</div>
+				</div>
+				<div class="card" style="width: 300px;margin-left:40px;">
+					<div class="card-section">
+						<p>"I feel safer knowing I used one platform to pay for all of my content subscriptions."</p>
+					</div>
+					<div class="card-divider">
+						<h4 class="center">Kevin Jones</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="jumbo-yellow">
+			<h4 class="bold">Why use Roots?</h4>
+			<h5>Roots gives creators a way to monetize their content without giving up ownership. 
+				Consumers input their payment info once to gain access to a library of subscription options.</h5>
+		</div>
+	</div>
 {% endblock %}
 
 {% block javascripts %}

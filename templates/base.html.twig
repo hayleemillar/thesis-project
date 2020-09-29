@@ -16,37 +16,43 @@
 		{% endblock %}
 	</head>
 	<body>
-		<div class="menu-bar" id="menu-bar">
-			<a data-toggle="menu-list"><img class="menu-hamburger" src={{ asset('build/images/hamburger.svg') }}></a>
-			<div class="menu-signuplogin">
-				<a href="/registration">sign up</a>
-				|
-				<a href="login">log in</a>
-			</div>
-			<div class="menu-title">
-				<a href="/">roots</a>
-			</div>
+		<div class="title-bar" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+			<button type="button" data-toggle="responsive-menu"><img src={{ asset('build/images/hamburger.svg') }} class="menu-hamburger"></button>
+			<div class="title-bar-title"></div>
 		</div>
-		<div class="dropdown-pane menu-list" data-hover="true" data-hover-pane="true" id="menu-list" data-dropdown data-auto-focus="true">
-			<ul class="vertical menu">
-				<li>
-					<a href={{ path('text') }}>text</a>
-				</li>
-				<li>
-					<a href={{ path('audio') }}>audio</a>
-				</li>
-				<li>
-					<a href={{ path('video') }}>video</a>
-				</li>
-				<div class="space"></div>
-				<li>
-					<a href={{ path('about') }}>about</a>
-				</li>
-				<!-- <li><a href="#">how does it work?</a></li> -->
+
+		<div class="top-bar" id="responsive-menu">
+		<div class="top-bar-left">
+			<ul class="dropdown menu" data-dropdown-menu>
+			<li><a href={{ path('index') }} class="menu-text">roots</a></li>
+			<li><a class="menu-hover" href={{ path('text') }}>text</a></li>
+			<li><a class="menu-hover" href={{ path('audio') }}>audio</a></li>
+			<li><a class="menu-hover" href={{ path('video') }}>video</a></li>
+			<li><a class="menu-hover" href={{ path('about') }}>about</a></li>
 			</ul>
 		</div>
 
+		{# TODO: Replace "sign up | log in" with "settings | logout" when a user is signed in #}
+		{# 
+			{% if app.user != null %}
+			{% endif %}
+		#}
+
+		<div class="top-bar-right">
+			<div class="menu-signuplogin">
+				<a class="menu-hover" href={{ path('registration') }}>sign up</a>
+				|
+				<a class="menu-hover" href={{ path('app_login') }}>log in</a>
+			</div>
+		</div>
+		</div>
+
 		{% block body %}{% endblock %}
+
+		<div class="footer">
+			<p>&#169; [my fake company] roots 2020</p>
+		</div>
+
 		{% block javascripts %}
 			<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
