@@ -174,7 +174,7 @@ hr {
 .circle-buttons {
     /* display: inline-block; */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     text-align: center;
     max-width: 80rem;
     margin-left: auto;
@@ -183,8 +183,8 @@ hr {
 }
 
 .audio-button {
-    width: 15em;
-    height: 15em;
+    width: 12em;
+    height: 12em;
     background: url("../images/audio-button.svg") no-repeat;
     background-size: 100%;
     transition: 1.0s;
@@ -197,8 +197,8 @@ hr {
 }
 
 .text-button {
-    width: 15em;
-    height: 15em;
+    width: 12em;
+    height: 12em;
     background: url("../images/text-button.svg") no-repeat;
     background-size: 100%;
     transition: 1.0s;
@@ -211,8 +211,8 @@ hr {
 }
 
 .video-button {
-    width: 15em;
-    height: 15em;
+    width: 12em;
+    height: 12em;
     background: url("../images/video-button.svg") no-repeat;
     background-size: 100%;
     transition: 1.0s;
