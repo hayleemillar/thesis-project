@@ -1,30 +1,46 @@
+{# templates/registration/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block body %}
-	<h3 class="center" style="margin-top:50px;">Sign Up</h3>
-	{{ form_start(form) }}
-	<div style="display:block;width:400px;margin-left:auto;margin-right:auto;">
-			<div>
-				{{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
-			</div>
-			<div>
-				{{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
-			</div>
-			<div>
-				{{ form_row(form.password.first, {'attr': {'class':
-                'form-control'}}) }}
-			</div>
-			<div>
-				{{ form_row(form.password.second, {'attr': {'class':
-                'form-control'}}) }}
-			</div>
-			<div>
-				<button type="submit" class="btn-submit center">
-					<i class="fa fa-btn fa-user"></i>
-					Register
-				</button>
-			</div>
+{% block title %}roots - register
+{% endblock %}
+
+{%
+block body %}
+	<div class="form-content">
+		<h1 class="h3 mb-3 font-weight-normal text-center">Join us!</h1>
+		{{ form_start(form) }}
+		<div class="form_group">
+			{{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
 		</div>
+		<div class="form_group">
+			{{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="form_group">
+			{{ form_row(form.password.first, {'attr': {'class':
+			'form-control'}}) }}
+		</div>
+		<div class="form_group">
+			{{ form_row(form.password.second, {'attr': {'class':
+			'form-control'}}) }}
+		</div>
+		<div class="text-center">
+			<button type="submit" class="btn btn-lg btn-primary button-submit">
+				register
+			</button>
+		</div>
+		{{ form_end(form) }}
+
+		{# <a href="{{ path('hwi_oauth_service_redirect', {'service': 'auth0'}) }}" style="color: #fff;">
+			<div class="card mb-3" style="background-color: #ffff;margin-top: 20px;">
+				<div class="card-body" style="padding: 0;">
+					<img style="padding:2px;" src="https://i.imgur.com/02VeCz0.png" height="40"/>
+					Connect with Auth0
+				</div>
+			</div>
+		</a> #}
 	</div>
-	{{ form_end(form) }}
+	<p class="text-muted text-center" style="margin-top:10px;">Have an account?
+		<u>
+			<a href="{{ path('app_login') }}">Log in here</a>
+		</u>.</p>
 {% endblock %}

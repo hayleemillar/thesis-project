@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends AbstractController
 {
-     /**
-      * @Route("/", name="index")
-      */
-    public function index()
-    {
-        return $this->render('index.html.twig');
-    }
+    //  /**
+    //   * @Route("/", name="index")
+    //   */
+    // public function index()
+    // {
+    //     return $this->render('index.html.twig');
+    // }
 
     /**
      * @Route("/about", name="about")
@@ -29,7 +29,9 @@ class IndexController extends AbstractController
      */
     public function text()
     {
-        return $this->render('text.html.twig');
+        return $this->render('media-list.html.twig', [
+            'type' => 'text'
+        ]);
     }
 
     /**
@@ -37,7 +39,9 @@ class IndexController extends AbstractController
      */
     public function audio()
     {
-        return $this->render('audio.html.twig');
+        return $this->render('media-list.html.twig', [
+            'type' => 'audio'
+        ]);
     }
 
     /**
@@ -45,6 +49,8 @@ class IndexController extends AbstractController
      */
     public function video()
     {
-        return $this->render('video.html.twig');
+        return $this->render('media-list.html.twig', [
+            'type' => 'video'
+        ]);
     }
 }

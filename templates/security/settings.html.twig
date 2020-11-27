@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}roots - settings
+{% endblock %}
+
+{% block body %}
+	<div class="form-content">
+		<form method="post">
+			<h1 class="h3 mb-3 font-weight-normal text-center">Settings.</h1>
+			<label for="inputName">name</label>
+			<input type="text" value="{{name}}" name="name" id="inputName" class="form-control" required>
+
+			<label for="inputEmail">email</label>
+			<input type="email" value="{{email}}" name="email" id="inputEmail" class="form-control" style="margin-bottom: 40px;" required>
+
+			<label for="inputPassword">old password</label>
+			<input type="password" name="oldpassword" id="inputPassword" class="form-control">
+
+			<label for="inputNewPass">new password</label>
+			<input type="password" name="password" id="inputNewPass" class="form-control">
+
+            <label for="inputNewPass1">confirm new password</label>
+			<input type="password" name="password1" id="inputNewPass1" class="form-control">
+
+			<div class="text-center">
+				<button class="btn btn-lg btn-primary button-submit" type="submit">
+					submit changes
+				</button>
+			</div>
+		</form>
+	</div>
+{% endblock %}

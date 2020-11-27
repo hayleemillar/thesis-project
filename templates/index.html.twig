@@ -1,100 +1,86 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
+{%
+block body %}
 
-{% block title %}
-	roots homepage
-{% endblock %}
+<div class="jumbotron bg-blue">
+  <h1 class="display-6">Creators own their content and monetize it on their terms.<br>
+				Your subscriptions, all in one place.</h1>
+  <a class="btn btn-primary" href="{{ path('about') }}" style="margin-top:40px;">Learn more</a>
+</div>
 
-{% block body %}
-	{{ parent() }}
+<div style="padding: 4rem 2rem;">
+  <h3 class="text-center">Begin your journey by picking one of the following to explore:</h3>
+  <div class="d-flex justify-content-around" style="margin-top:60px;margin-bottom: 60px;">
+      <div class="circle" data-toggle="tooltip" data-placement="top" title="text"><img class="btn-svg" src={{ asset('images/text.svg') }}></div>
+      <div class="circle" data-toggle="tooltip" data-placement="top" title="audio"><img class="btn-svg" src={{ asset('images/audio.svg') }}></div>
+      <div class="circle" data-toggle="tooltip" data-placement="top" title="video"><img class="btn-svg btn-video" src={{ asset('images/video.svg') }}></div>
+  </div>
+</div>
 
-	<div class="page-body">
+<div class="jumbotron bg-green">
+  <h1 class="display-6 text-left">Reviews from creators:</h1>
+  <div class="d-flex justify-content-around" style="margin-top:60px;margin-bottom: 60px;">
+    <div class="card" style="width: 25rem;">
+      <img src={{ asset('images/alexis-rose.jpg') }} class="card-img-top" alt="Alexis Rose">
+      <div class="card-body">
+        <h5 class="card-title text-center">Alexis Rose</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <div class="text-center"><a href="#" class="btn btn-primary button-blue">view profile</a></div>
+      </div>
+    </div>
+    <div class="card" style="width: 25rem;">
+      <img src={{ asset('images/Johnny-rose.jpg') }} class="card-img-top" alt="Johnny Rose">
+      <div class="card-body">
+        <h5 class="card-title text-center">Johnny Rose</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <div class="text-center"><a href="#" class="btn btn-primary button-blue">view profile</a></div>
+      </div>
+    </div>
+    <div class="card" style="width: 25rem;">
+      <img src={{ asset('images/patrick-brewer.jpg') }} class="card-img-top" alt="Patrick Brewer">
+      <div class="card-body">
+        <h5 class="card-title text-center">Patrick Brewer</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <div class="text-center"><a href="#" class="btn btn-primary button-blue">view profile</a></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-		<div class="jumbo-yellow">
-			<h4>What is Roots?</h4>
-			<h1>A platform empowering the individual creator.</h1>
-			<h4 class="space3">Creators own their content and monetize it on their terms.<br>
-				Your subscriptions, all in one place.</h4>
-			<button class="launch-signup">Let's go!</button>
-		</div>
+<div style="padding: 4rem 2rem;">
+  <h1 class="display-6 text-right">Why use Roots?</h1>
+  <div class="card w-75 mx-auto" style="margin-top:20px;">
+    <div class="card-body">
+      <h4 class="text-center" style="margin-top:40px;">Roots gives creators a way to monetize their content without giving up ownership.</h4>
+      <h4 class="text-center" style="margin-bottom:40px;">Consumers input their payment info once to gain access to a library of subscription options.</h4>
+    </div>
+  </div>
+</div>
 
-		<div style="padding: 4rem;">
-			<h4>Begin your journey by picking one of the following content pathways to explore: <br>text, video, or audio.</h4>
+<div class="jumbotron bg-blue">
+  <h1 class="display-6 text-left">Reviews from users:</h1>
+  <div class="d-flex justify-content-around" style="margin-top:60px;margin-bottom: 60px;">
+    <div class="card" style="width: 25rem;">
+      <div class="card-body">
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+    <div class="card" style="width: 25rem;">
+      <div class="card-body">
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+    <div class="card" style="width: 25rem;">
+      <div class="card-body">
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-			<div class="circle-buttons">
-				<a href={{ path('text') }} class="text-button"></a>
-				<a href={{ path('video') }} class="video-button"></a>
-				<a href={{ path('audio') }} class="audio-button"></a>
-			</div>
-		</div>
-
-		<div class="jumbo-green">
-			<h3 class="space bold">reviews from creators.</h3>
-			<div class="space3 cards">
-				<div class="card" style="width: 300px;margin-right:40px;">
-					<div class="card-section">
-						<p>"I love how easy-to-use Roots is! I was able to integrate it into my website easily."</p>
-					</div>
-					<img src={{ asset('build/images/alexis-rose.jpg') }}>
-					<div class="card-divider">
-						<h4 class="center">Alexis Rose</h4>
-					</div>
-				</div>
-				<div class="card" style="width: 300px;">
-					<div class="card-section">
-						<p>"Roots gave me a way to do what I love while making a living."</p>
-					</div>
-					<img src={{ asset('build/images/patrick-brewer.jpg') }}>
-					<div class="card-divider">
-						<h4 class="center">Patrick Brewer</h4>
-					</div>
-				</div>
-				<div class="card" style="width: 300px;margin-left:40px;">
-					<div class="card-section">
-						<p>"Roots keeps my fans happy with easily-accessibly monetized content using tiers."</p>
-					</div>
-					<img src={{ asset('build/images/johnny-rose.jpg') }}>
-					<div class="card-divider">
-						<h4 class="center">Johnny Rose</h4>
-					</div>
-				</div>
-			</div>
-
-			<h3 class="space bold" style="text-align:right;">reviews from users.</h3>
-			<div class="space3 cards">
-				<div class="card" style="width: 300px;margin-right:40px;">
-					<div class="card-section">
-						<p>"All of my subscriptions are in one place. One click and I have the content I want!"</p>
-					</div>
-					<div class="card-divider">
-						<h4 class="center">Jane Doe</h4>
-					</div>
-				</div>
-				<div class="card" style="width: 300px;">
-					<div class="card-section">
-						<p>"The tiers option makes supporting my favorite creators easier."</p>
-					</div>
-					<div class="card-divider">
-						<h4 class="center">John Smith</h4>
-					</div>
-				</div>
-				<div class="card" style="width: 300px;margin-left:40px;">
-					<div class="card-section">
-						<p>"I feel safer knowing I used one platform to pay for all of my content subscriptions."</p>
-					</div>
-					<div class="card-divider">
-						<h4 class="center">Kevin Jones</h4>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="jumbo-yellow">
-			<h4 class="bold">Why use Roots?</h4>
-			<h5>Roots gives creators a way to monetize their content without giving up ownership. 
-				Consumers input their payment info once to gain access to a library of subscription options.</h5>
-		</div>
-	</div>
-{% endblock %}
-
-{% block javascripts %}
-	{{ parent() }}
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 {% endblock %}

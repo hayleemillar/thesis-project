@@ -1,47 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}roots -- log in
-{% endblock %}
+{% block title %}roots - log in{% endblock %}
 
 {% block body %}
-	{{ parent() }}
+<div class="form-content">
+  <form method="post">
+      {% if error %}
+          <script>console.log('ERROR');</script>
+          <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+      {% endif %}
 
-	<form method="post">
-		{% if error %}
-			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-		{% endif %}
+      {% if app.user %}
+        <script>console.log('USER');</script>
+          <div class="mb-3">
+              You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+          </div>
+      {% endif %}
+      <h1 class="h3 mb-3 font-weight-normal text-center">Welcome.</h1>
+      <label for="inputEmail">email</label>
+      <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+      <label for="inputPassword">password</label>
+      <input type="password" name="password" id="inputPassword" class="form-control" required>
 
-		{% if app.user %}
-			{# TODO TODO TODO #}
-		{% endif %}
+      <input type="hidden" name="_csrf_token"
+            value="{{ csrf_token('authenticate') }}"
+      >
 
-		<h3 class="center" style="margin-top:50px;">Log In</h3>
-		<div style="display:block;width:400px;margin-left:auto;margin-right:auto;">
-			<label for="inputEmail">Email</label>
-			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-			<label for="inputPassword">Password</label>
-			<input type="password" name="password" id="inputPassword" class="form-control" required>
+      {#
+          Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+          See https://symfony.com/doc/current/security/remember_me.html
 
-            <input
-            type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+          <div class="checkbox mb-3">
+              <label>
+                  <input type="checkbox" name="_remember_me"> Remember me
+              </label>
+          </div>
+      #}
 
-            {#
-                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                    See https://symfony.com/doc/current/security/remember_me.html
-            
-                    <div class="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" name="_remember_me"> Remember me
-                        </label>
-                    </div>
-                #}
-
-            <div class="center">
-                <button type="submit" class="btn-submit">
-                    <i class="fa fa-btn fa-user"></i>
-                    Sign In
-                </button>
-            </div>
-        </div>
-	</form>
+      <div class="text-center">
+        <button class="btn btn-lg btn-primary button-submit" type="submit">
+            log in
+        </button>
+      </div>
+  </form>
+  <a
+    href="{{ path('hwi_oauth_service_redirect', {'service': 'auth0'}) }}"
+    style="color: #fff;"
+  >
+    {# <div class="card mb-3" style="background-color: #ffff;margin-top: 20px;">
+      <div class="card-body" style="padding: 0;">
+        <img style="padding:2px;" src="https://i.imgur.com/02VeCz0.png" height="40" />
+        Connect with Auth0
+      </div>
+    </div> #}
+  </a>
+  <p class="text-muted text-center">Don't have an account? <u><a href="{{ path('registration') }}">Register here</a></u>.</p>
+</div>
 {% endblock %}

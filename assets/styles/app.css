@@ -1,0 +1,165 @@
+body {
+    background-color: #EDE9E4;
+    color: #1E1A1D;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 300;
+}
+
+body * {
+    color: #1E1A1D;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 300;
+}
+
+.text-content {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.footer {
+    width: 100%;
+    text-align: center;
+}
+
+.form-content {
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    max-width: 400px;
+    width: 80%;
+}
+
+form label {
+    margin-top: 10px;
+}
+
+form button {
+    margin-top: 40px;
+}
+
+.button-submit {
+    background-color: #247BA0 !important;
+    border-color: #247BA0 !important;
+}
+
+.button-submit:hover {
+    background-color: #155a77 !important;
+    border-color: #155a77 !important;
+    transition: 0.2s;
+}
+
+.button-blue {
+    background-color: transparent !important;
+    border-color: #247BA0 !important;
+    color: #247BA0 !important;
+    transition: 0.2s;
+}
+
+.button-blue:hover {
+    background-color: transparent !important;
+    border-color: #247BA0 !important;
+    border-width: 2px;
+    color: #247BA0 !important;
+    padding: 10px;
+    padding: 10px 20px;
+    transition: 0.2s;
+    font-size: 1.1rem;
+}
+
+.button-green {
+    background-color: transparent !important;
+    border-color: #588157 !important;
+    color: #588157 !important;
+    transition: 0.2s;
+}
+
+.button-green:hover {
+    background-color: transparent !important;
+    border-color: #588157 !important;
+    border-width: 2px;
+    color: #588157 !important;
+    padding: 10px;
+    padding: 10px 20px;
+    transition: 0.2s;
+}
+
+.jumbotron {
+    border-radius: 0px;
+}
+
+.bg-green {
+    background-color: #588157;
+    color: white;
+}
+
+.bg-green * {
+    color: white;
+}
+
+.bg-orange {
+    background-color: #d36135;
+    color: white;
+}
+
+.bg-orange * {
+    color: white;
+}
+
+.bg-blue {
+    background-color: #247ba0;
+    color: white;
+}
+
+.bg-blue * {
+    color: white;
+}
+
+.bg-blue .btn-primary {
+    background-color: transparent !important;
+    border-color: #ede9e4;
+    border-width: medium;
+    transition: 0.2s;
+}
+
+.bg-blue .btn-primary:active {
+    background-color: transparent !important;
+    border-color: #ede9e4 !important;
+}
+
+.bg-blue .btn-primary:hover {
+    padding: 10px;
+    padding: 15px 25px;
+    transition: 0.2s;
+    font-size: 1.35rem;
+}
+
+.circle {
+    height: 250px;
+    width: 250px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.circle:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-svg {
+    position: absolute;
+    height: 125px;
+    margin: 60px;
+}
+
+.btn-video {
+    margin-top: 80px;
+}
+
+.card-title,
+.card-text {
+    color: #1E1A1D;
+}

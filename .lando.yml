@@ -1,4 +1,4 @@
-name: thesis-project
+name: thesis
 recipe: lemp
 config:
   webroot: public

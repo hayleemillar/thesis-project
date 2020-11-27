@@ -1,40 +1,45 @@
 security:
-    encoders:
-        App\Entity\User:
-            algorithm: auto
+  encoders:
+    App\Entity\User:
+      algorithm: auto
 
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            anonymous: ~
-            lazy: true
-            provider: app_user_provider
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
-            logout:
-                path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
-                target: /
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+    oauth_hwi:
+      id: hwi_oauth.user.provider
+    # used to reload user from session & other features (e.g. switch_user)
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      lazy: true
+      anonymous: ~
+      provider: oauth_hwi
+      form_login:
+            login_path: app_login
+            check_path: app_login
+      oauth:
+        resource_owners:
+          auth0: "/auth0/callback"
+        login_path: app_login
+        failure_path: app_login
+        default_target_path: app_login
+        oauth_user_provider:
+          service: hwi_oauth.user.provider
+      guard:
+        authenticators:
+          - App\Security\LoginFormAuthenticator
+        entry_point: App\Security\LoginFormAuthenticator
+      logout:
+        path: app_logout
+        target: /login
+  access_control:
+    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: '^/settings', roles: [IS_AUTHENTICATED_FULLY, ROLE_USER] }
+    - { path: '^/jwt', roles: [IS_AUTHENTICATED_FULLY, ROLE_USER] }
