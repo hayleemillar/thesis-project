@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>jwt test</title>
+
+    <!-- jsrasign library to validate token -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.5/jsrsasign-all-min.js" integrity="sha512-2Ijib4/eGMb3p/dMjUpKa9Fv6P0ZqOZBTIgVaNK08t9lg9/G5atCJsbJQgwGNQKlW/HRIvD4E8fPDAjFt8vWrA==" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1 id="valid"></h1>
+    <h2 id="payload"></h2>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        
+        if (params.has('roots')) {
+            const pub_key = 
+                '-----BEGIN PUBLIC KEY----- \
+                MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAsY4GTx6ay6oJIimBa2AN \
+                6pGdK64BlUL07UsjIFan0yTbyig2oy3p4s7x47izOLqlwsS4Q8JTHB0ntqVZJCx4 \
+                8A8bXPBdUkicJswyJzpeXpYTDV688dzdwkN2oNkPPCw7AxAuDXNtMAHOfmipBedD \
+                xOm5xcHpw/FoLo6m+5btPCZOclf0bvf/L+oOQ8ye+vP2jT3ALeHYxfXYgQUMsXvK \
+                jvVZOuLvFPrApCwoxzpli9hSR6h5S/vbg+uCLijqfGA3A6gErodfZrZ8LbxdYT8o \
+                vKjWDxXTslu97jlgUcHEj6YEhODDHdrgU3fwlP2NjvY9wOW0VHyXnRRFPpUZqG/o \
+                i5e9slrvebMPD4dvTyc6OYuO6C9vc0G8MA5thWMJ61y8J4U2lvu8LTodkSYrwGdk \
+                JI/Ce2bfRqDR97YpzPrSBzCplk4pdPKKvt1c8A7aqPvkbQic/mzM2I25Tm2igqMg \
+                DZgTa8IBNAUrSpH6PDrC53njSocvU76i4nepcYwp4WRfwmMvyg9iegwcjGajK0N4 \
+                r+vx4QPP5/kQULY8dD0tnZ5Vreh9ta2l3+ISa2R8LXPGHpx0YooxRT7mXZJdFl1/ \
+                5FKcGWnZNRgU+aii189H3BEfi2KiVvGI8z9Occ2SNCr8v0TA8lh42cT/7+sXGzTA \
+                ik2YfwwxFk80411E0R6c8yECAwEAAQ== \
+                -----END PUBLIC KEY-----';
+
+
+            // verify signature before accepting payload
+            var token = params.get('roots');
+            isValid = KJUR.jws.JWS.verifyJWT(token, pub_key, {alg: ["RS256"]});
+        
+            if (isValid) {
+                document.getElementById('valid').innerHTML = 'JWT signature is valid.';
+
+                // decode payload
+                var parts = token.split('.');
+                console.log(parts);
+                var payload = decode(parts[1]);
+                
+                document.getElementById('payload').innerHTML = payload;
+
+            } else {
+                document.getElementById('valid').innerHTML = 'Unable to validate JWT signature.';
+            }
+        }
+
+
+        function decode(str) {
+            let base64Url = str;
+            base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+
+            return decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+        }
+    </script>
+</body>
+
+</html>

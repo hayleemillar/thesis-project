@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ class TokenController extends AbstractController
     }
 
     /**
-     * @Route("/jwt")
+     * @Route("/jwt", name="jwt")
      */
     public function newTokenAction(Request $request)
     {
@@ -33,16 +34,13 @@ class TokenController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        // wipe password
-        $user->setPassword($this->passwordEncoder->encodePassword(
-            $user,
-            ''
-        ));
+        $temp = new User();
+        $temp->setEmail($user->getEmail());
+        $temp->setName($user->getName());
 
-        return new JsonResponse($this->jwt->create($user));
-    
-        // return $this->render('jwt.html.twig', [
-        //     'token' => $this->jwt->create($user)
-        // ]);
+        // return new JsonResponse($this->jwt->create($user));
+        return $this->render('jwt/jwt.html.twig', [
+            'jwt' => $this->jwt->create($temp)
+        ]);
     }
 }
