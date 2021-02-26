@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\UserSubscription;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,6 +47,25 @@ class SecurityController extends AbstractController
     public function index()
     {
         return $this->render('index.html.twig');
+    }
+
+    /**
+     * @Route("/profile", name="profile")
+     */
+    public function profile() {
+        
+        $user = $this->getUser();
+
+        $sub_repo = $this->getDoctrine()->getRepository(UserSubscription::class);
+        $subs = $sub_repo->findBy(
+            array('user' => $user->getId()),
+        );
+
+
+        return $this->render('security/profile.html.twig', [
+            'name' => $user->getName(),
+            'subs' => $subs,
+        ]);
     }
 
     /**

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}roots - settings
+{% endblock %}
+
+{% block body %}
+	<div class="jumbotron bg-blue">
+		<h1 class="display-6">Welcome,
+			{{ name }}.</h1>
+	</div>
+
+	<div
+		class="card w-75 mx-auto" style="margin-top:20px;">
+		{# settings #}
+		<div class="card-body text-center">
+			<a class="btn btn-primary" href="/settings">settings</a>
+		</div>
+		<hr>
+		{# loop thru subscriptions #}
+		{% for sub in subs %}
+        <div>
+			{{ sub.id }}
+        </div>
+		{% endfor %}
+	</div>
+{% endblock %}

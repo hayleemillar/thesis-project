@@ -15,6 +15,7 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         
+        // check for jwt in query string parameters
         if (params.has('roots')) {
             const pub_key = 
                 '-----BEGIN PUBLIC KEY----- \
@@ -50,6 +51,8 @@
             } else {
                 document.getElementById('valid').innerHTML = 'Unable to validate JWT signature.';
             }
+        } else {
+            document.getElementById('valid').innerHTML = 'No JWT detected in query string.'
         }
 
 
