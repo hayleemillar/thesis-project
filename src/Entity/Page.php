@@ -34,11 +34,6 @@ class Page
     private $description;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $sub_model;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $private;

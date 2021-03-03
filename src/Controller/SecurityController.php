@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\UserSubscription;
+use App\Entity\SubscriptionTier;
+use App\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,10 +63,28 @@ class SecurityController extends AbstractController
             array('user' => $user->getId()),
         );
 
+        $sub_repo = $this->getDoctrine()->getRepository(SubscriptionTier::class);
+        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+
+        $subscriptions = [];
+        foreach ($subs as $sub) {
+            $tier_data = $sub_repo->find($sub->getSubTier());
+            $page_data = $page_repo->find($tier_data->getPage());
+
+            $id = $sub->getId();
+
+            $subscriptions[$id] = [
+                'title' => $tier_data->getTitle(),
+                'site' => $page_data->getUrl()
+            ];
+
+            $id = $sub->getId();
+        }
+
 
         return $this->render('security/profile.html.twig', [
             'name' => $user->getName(),
-            'subs' => $subs,
+            'subs' => $subscriptions,
         ]);
     }
 

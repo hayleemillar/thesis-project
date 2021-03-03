@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\SubscriptionTiersRepository;
+use App\Repository\SubscriptionTierRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=SubscriptionTiersRepository::class)
+ * @ORM\Entity(repositoryClass=SubscriptionTierRepository::class)
  * @ORM\Table(name="sub_tier")
  */
-class SubscriptionTiers
+class SubscriptionTier
 {
     /**
      * @ORM\Id

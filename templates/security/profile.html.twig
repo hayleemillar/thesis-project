@@ -15,11 +15,12 @@
 		<div class="card-body text-center">
 			<a class="btn btn-primary" href="/settings">settings</a>
 		</div>
-		<hr>
 		{# loop thru subscriptions #}
 		{% for sub in subs %}
-        <div>
-			{{ sub.id }}
+		<hr>
+        <div style="margin:1rem;">
+			Website: {{ sub.site }}<br>
+			Subscription: {{ sub.title }}
         </div>
 		{% endfor %}
 	</div>
