@@ -6,9 +6,70 @@
 {%
 block body %}
 	<div class="jumbotron bg-blue">
-		test
+		<h1 class="display-6">
+			{{ page.title }}
+		</h1>
 	</div>
 	<div class="text-content">
+		<div class="card w-75 mx-auto" style="margin-top:20px;">
+			<div style="margin:2rem;">
+				<h3>Website</h3>
+				<p>{{ page.url }}</p>
 
-	</div>
-{% endblock %}
+				<hr style="margin-top:2em;margin-bottom:2rem;">
+
+				<h3>Description</h3>
+				{{ page.description }}
+
+				<hr style="margin-top:2em;margin-bottom:2rem;">
+
+				<h3>Subscription Tiers</h3>
+				<div class="d-flex justify-content-around">
+					{% for tier in tiers %}
+						<div class="card border-dark mb-3" style="width: 18rem;">
+							<div class="card-header text-center">{{ tier.title }}</div>
+							<div class="card-body">
+								<h5 class="card-title text-center">${{ tier.amount }}</h5>
+								<p class="card-text text-center">{{ tier.description }}</p>
+							</div>
+                            {% if tier.id == sub.getSubTier() %}
+                                {# <a class="btn btn-secondary" href="/subscribe/0/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">unsubscribe</a> #}
+                                <a class="btn btn-secondary" href="javascript:subscribe(0, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">unsubscribe</a>
+                            {% else %}
+                                {# <a class="btn btn-primary" href="/subscribe/1/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">select</a> #}
+                                <a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">select</a>
+                            {% endif %}
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+    </div>
+    <script>
+        function subscribe(type, title, tier_id) {
+            response = false;
+
+            switch (type) {
+                case 0:
+                    // unsubscribe
+                    response = confirm("Are you sure you would like to unsubscribe from {{ page.title }}? You may choose to re-subscribe at any time.");
+                    if (response) {
+                        window.location.href = '/subscribe/0/{{ page.id }}/' + tier_id;
+                    }
+                    break;
+
+                case 1:
+                    // subscribe
+                    response = confirm("Are you sure you would like to subscribe to the " + title + " for {{ page.title }}? This will remove any existing subscriptions to this site.");
+                    if (response) {
+                        window.location.href = '/subscribe/1/{{ page.id }}/' + tier_id;
+                    }
+                    break;
+                
+                if (response) {
+                    window.location.href = '/subscribe/' + type + '/{{ page.id }}/' + tier_id;
+                }
+            }
+        }
+    </script>
+	{% endblock %}

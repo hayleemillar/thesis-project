@@ -75,7 +75,9 @@ class SecurityController extends AbstractController
 
             $subscriptions[$id] = [
                 'title' => $tier_data->getTitle(),
-                'site' => $page_data->getUrl()
+                'site' => $page_data->getTitle(),
+                'amount' => $tier_data->getAmount(),
+                'id' => $page_data->getId()
             ];
 
             $id = $sub->getId();

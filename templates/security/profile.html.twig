@@ -15,12 +15,21 @@
 		<div class="card-body text-center">
 			<a class="btn btn-primary" href="/settings">settings</a>
 		</div>
+
+		<hr>
+		<div class="d-flex justify-content-between" style="margin:1rem;">
+			<p class="font-weight-bold">Website</p>
+			<p class="font-weight-bold">Subscription Tier</p>
+			<p class="font-weight-bold">Page Link</p>
+        </div>
+
 		{# loop thru subscriptions #}
 		{% for sub in subs %}
 		<hr>
-        <div style="margin:1rem;">
-			Website: {{ sub.site }}<br>
-			Subscription: {{ sub.title }}
+        <div class="d-flex justify-content-between" style="margin:1rem;">
+			<p>{{ sub.site }}</p>
+			<p>{{ sub.title }} : ${{ sub.amount }}</p>
+			<p><a class="btn btn-primary" href="/page/{{ sub.id }}">view</a></p>
         </div>
 		{% endfor %}
 	</div>
