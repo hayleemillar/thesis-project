@@ -5,6 +5,10 @@
 
 {%
 block body %}
+    {% if message != NULL %}
+        <script>alert({{ message}});</script>
+    {% endif %}
+
 	<div class="jumbotron bg-blue">
 		<h1 class="display-6">
 			{{ page.title }}
@@ -32,12 +36,16 @@ block body %}
 								<h5 class="card-title text-center">${{ tier.amount }}</h5>
 								<p class="card-text text-center">{{ tier.description }}</p>
 							</div>
-                            {% if tier.id == sub.getSubTier() %}
+                            {% if (sub != null) and (tier.id == sub.getSubTier()) %}
                                 {# <a class="btn btn-secondary" href="/subscribe/0/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">unsubscribe</a> #}
                                 <a class="btn btn-secondary" href="javascript:subscribe(0, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">unsubscribe</a>
                             {% else %}
                                 {# <a class="btn btn-primary" href="/subscribe/1/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">select</a> #}
-                                <a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">select</a>
+                                {% if sub != null %}
+                                    <a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }}, {{ sub.getSubTier() }})" style="width:12rem;margin: 1rem auto;">select</a>
+                                {% else %}
+                                    <a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">select</a>
+                                {% endif %}
                             {% endif %}
 						</div>
 					{% endfor %}
@@ -46,7 +54,7 @@ block body %}
 		</div>
     </div>
     <script>
-        function subscribe(type, title, tier_id) {
+        function subscribe(type, title, tier_id, unsub_tier = -1) {
             response = false;
 
             switch (type) {
@@ -54,7 +62,7 @@ block body %}
                     // unsubscribe
                     response = confirm("Are you sure you would like to unsubscribe from {{ page.title }}? You may choose to re-subscribe at any time.");
                     if (response) {
-                        window.location.href = '/subscribe/0/{{ page.id }}/' + tier_id;
+                        window.location.href = '/unsubscribe/{{ page.id }}/' + tier_id;
                     }
                     break;
 
@@ -62,13 +70,9 @@ block body %}
                     // subscribe
                     response = confirm("Are you sure you would like to subscribe to the " + title + " for {{ page.title }}? This will remove any existing subscriptions to this site.");
                     if (response) {
-                        window.location.href = '/subscribe/1/{{ page.id }}/' + tier_id;
+                        window.location.href = '/subscribe/{{ page.id }}/' + tier_id + '/' + unsub_tier;
                     }
                     break;
-                
-                if (response) {
-                    window.location.href = '/subscribe/' + type + '/{{ page.id }}/' + tier_id;
-                }
             }
         }
     </script>

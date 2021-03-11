@@ -126,7 +126,7 @@ class SecurityController extends AbstractController
             ));
         }
 
-        // Save
+        // save
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();

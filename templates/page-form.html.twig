@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}roots - settings
+{% endblock %}
+
+{% block body %}
+	<div class="jumbotron bg-blue">
+		<h1 class="display-6">Create New Website Landing Page</h1>
+	</div>
+
+	<div class="card w-75 mx-auto" style="margin-top:20px;">
+		<div class="mx-auto" style="margin:2rem;">
+			{{ form_start(form) }}
+			<div>
+				{{ form_errors(form) }}
+			</div>
+
+			<div class="row">
+				<div class="col">
+					{{ form_label(form.url, 'URL: ') }}
+				</div>
+				<div class="col">
+					{{ form_widget(form.url) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					{{ form_label(form.title, 'Title: ') }}
+				</div>
+				<div class="col">
+					{{ form_widget(form.title) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					{{ form_label(form.description, 'Description: ') }}
+				</div>
+				<div class="col">
+					{{ form_widget(form.description) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					{{ form_label(form.private, 'Private: ') }}
+				</div>
+				<div class="col">
+					{{ form_widget(form.private) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col text-center">
+					{{ form_widget(form.save, {'attr': {'class': 'btn-primary'}}) }}
+				</div>
+			</div>
+			{{ form_end(form) }}
+		</div>
+	</div>
+{% endblock %}
