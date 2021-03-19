@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 class SubscriptionController extends AbstractController
@@ -21,8 +22,10 @@ class SubscriptionController extends AbstractController
     /**
      * @Route("/page/{id}", name="page")
      */
-    public function page(int $id, string $message = NULL)
+    public function page(int $id)
     {
+        $owner = false;
+
         $page_repo = $this->getDoctrine()->getRepository(Page::class);
         $page = $page_repo->find($id);
 
@@ -34,6 +37,10 @@ class SubscriptionController extends AbstractController
         $user = $this->getUser();
         $sub = [];
         if ($user) {
+            if ($user->getId() == $page->getUser()) {
+                $owner = true;
+            }
+
             // retrieve user subscriptions
             $sub_repo = $this->getDoctrine()->getRepository(UserSubscription::class);
 
@@ -51,10 +58,10 @@ class SubscriptionController extends AbstractController
         } 
 
         return $this->render('page.html.twig', [
+            'owner' => $owner,
             'page' => $page,
             'tiers' => $tiers,
-            'sub' => $sub,
-            'message' => $message
+            'sub' => $sub
         ]);
     }
 
@@ -84,8 +91,10 @@ class SubscriptionController extends AbstractController
             }
 
             return $this->redirectToRoute('page', 
-                ['id' => $page_id,
-                'message' => $message]);
+                [
+                    'id' => $page_id,
+                    'message' => $message
+                ]);
         } else { return $this->render('security/unauthorized.html.twig'); }
     }
 
@@ -153,17 +162,28 @@ class SubscriptionController extends AbstractController
             $page = new Page();
             $form = $this->createFormBuilder($page)
                 ->add('url', TextType::class)
+                ->add('type', ChoiceType::class, [
+                    'choices' => [
+                        'audio' => 'audio',
+                        'video' => 'video',
+                        'text' => 'text',
+                    ],
+                    'choice_label' => function ($choice, $key, $value) {
+                        return $key;
+                    },])
                 ->add('title', TextType::class)
                 ->add('description', TextareaType::class)
                 ->add('private', CheckboxType::class, ['required' => false])
                 ->add('save', SubmitType::class, ['label' => 'Create Page'])
                 ->getForm();
 
+                // check for form submission
                 if ($request->isMethod('POST')) {
                     $form->submit($request->request->get($form->getName()));
-            
+
+                    // ensure valid
                     if ($form->isSubmitted() && $form->isValid()) {
-                        // perform some action...
+                        // save new page
                         $page->setUser($user->getId());
 
                         $em = $this->getDoctrine()->getManager();
@@ -177,5 +197,40 @@ class SubscriptionController extends AbstractController
 
             return $this->render('page-form.html.twig', ['form' => $form->createView()]);
         } else { return $this->render('security/unauthorized.html.twig'); }
+    }
+
+    /**
+     * @Route("/page/{id}/edit/{type}", name="page_edit")
+     */
+    public function editPage(int $id, string $type, Request $request) {
+        $user = $this->getUser();
+        if ($user) { 
+            // retrieve page from database
+            $page_repo = $this->getDoctrine()->getRepository(Page::class);
+            $page = $page_repo->find($id);
+
+            if ($user->getId() == $page->getUser()) {
+                // user owns page, continue
+                switch($type) {
+                    case 'title':
+                        $page->setTitle($request->request->get('form')['title']);
+                        break;
+                    case 'description':
+                        $page->setDescription($request->request->get('form')['description']);
+                        break;
+                    case 'tiers':
+                        break;
+                }
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($page);
+                $em->flush();
+
+                return $this->redirectToRoute('page', 
+                    ['id' => $page->getId(),
+                    'message' => 'Page ' . $type . ' has been updated.']);
+            }
+        }
+        return $this->render('security/unauthorized.html.twig');
     }
 }

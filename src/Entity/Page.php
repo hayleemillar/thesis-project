@@ -46,6 +46,13 @@ class Page
     private $description;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * 
+     * @Assert\NotBlank
+     */
+    private $type;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $private;
@@ -99,6 +106,18 @@ class Page
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->description = $type;
 
         return $this;
     }

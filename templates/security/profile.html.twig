@@ -14,7 +14,7 @@
 		{# settings #}
 		<div class="card-body text-center">
 			<a class="btn btn-primary" href="/settings">Settings</a>
-			<a class="btn btn-primary" href="/new/page">Create New Page</a>
+			<a class="btn btn-info" href="/new/page">Create New Page</a>
 		</div>
 
 		<hr>
@@ -30,7 +30,7 @@
         <div class="d-flex justify-content-between" style="margin:1rem;">
 			<p>{{ sub.site }}</p>
 			<p>{{ sub.title }} : ${{ sub.amount }}</p>
-			<p><a class="btn btn-primary" href="/page/{{ sub.id }}">view</a></p>
+			<p><a class="btn btn-secondary" href="/page/{{ sub.id }}">view</a></p>
         </div>
 		{% endfor %}
 	</div>

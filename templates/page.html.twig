@@ -3,31 +3,48 @@
 {% block title %}roots - about
 {% endblock %}
 
-{%
-block body %}
-    {% if message != NULL %}
-        <script>alert({{ message}});</script>
-    {% endif %}
-
+{% block body %}
 	<div class="jumbotron bg-blue">
 		<h1 class="display-6">
 			{{ page.title }}
+			{% if owner %}
+				<button type="button" class="btn btn-secondary mx-auto" onclick="toggleEdit('title');">
+					edit
+				</button>
+			{% endif %}
 		</h1>
 	</div>
 	<div class="text-content">
 		<div class="card w-75 mx-auto" style="margin-top:20px;">
 			<div style="margin:2rem;">
-				<h3>Website</h3>
-				<p>{{ page.url }}</p>
+				<h3>Website
+					<!-- Button trigger modal -->
+					{# <button type="button" class="btn btn-secondary mx-auto" data-toggle="modal" data-target="#editModal"> #}
+				</h3>
+				<a href="{{ page.url }}" class="btn btn-link">{{ page.url }}</a>
 
 				<hr style="margin-top:2em;margin-bottom:2rem;">
 
-				<h3>Description</h3>
+				<h3>Description
+					<!-- Button trigger modal -->
+					{# <button type="button" class="btn btn-secondary mx-auto" data-toggle="modal" data-target="#editModal"> #}
+					{% if owner %}
+						<button type="button" class="btn btn-secondary mx-auto" onclick="toggleEdit('description');"> edit
+						</button>
+					{% endif %}
+				</h3>
 				{{ page.description }}
 
 				<hr style="margin-top:2em;margin-bottom:2rem;">
 
-				<h3>Subscription Tiers</h3>
+				<h3>Subscription Tiers
+					<!-- Button trigger modal -->
+					{% if owner %}
+						<button type="button" class="btn btn-secondary mx-auto" onclick="toggleEdit('tiers');">
+							edit
+						</button>
+					{% endif %}
+				</h3>
 				<div class="d-flex justify-content-around">
 					{% for tier in tiers %}
 						<div class="card border-dark mb-3" style="width: 18rem;">
@@ -36,44 +53,149 @@ block body %}
 								<h5 class="card-title text-center">${{ tier.amount }}</h5>
 								<p class="card-text text-center">{{ tier.description }}</p>
 							</div>
-                            {% if (sub != null) and (tier.id == sub.getSubTier()) %}
-                                {# <a class="btn btn-secondary" href="/subscribe/0/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">unsubscribe</a> #}
-                                <a class="btn btn-secondary" href="javascript:subscribe(0, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">unsubscribe</a>
-                            {% else %}
-                                {# <a class="btn btn-primary" href="/subscribe/1/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">select</a> #}
-                                {% if sub != null %}
-                                    <a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }}, {{ sub.getSubTier() }})" style="width:12rem;margin: 1rem auto;">select</a>
-                                {% else %}
-                                    <a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">select</a>
-                                {% endif %}
-                            {% endif %}
+							{% if (sub != null) and (tier.id == sub.getSubTier()) %}
+								{# <a class="btn btn-secondary" href="/subscribe/0/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">unsubscribe</a> #}
+								<a class="btn btn-secondary" href="javascript:subscribe(0, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">unsubscribe</a>
+							{% else %}
+								{# <a class="btn btn-primary" href="/subscribe/1/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">select</a> #}
+								{% if sub != null %}
+									<a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }}, {{ sub.getSubTier() }})" style="width:12rem;margin: 1rem auto;">select</a>
+								{% else %}
+									<a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">select</a>
+								{% endif %}
+							{% endif %}
 						</div>
 					{% endfor %}
 				</div>
 			</div>
 		</div>
-    </div>
-    <script>
-        function subscribe(type, title, tier_id, unsub_tier = -1) {
-            response = false;
+	</div>
 
-            switch (type) {
-                case 0:
-                    // unsubscribe
-                    response = confirm("Are you sure you would like to unsubscribe from {{ page.title }}? You may choose to re-subscribe at any time.");
-                    if (response) {
-                        window.location.href = '/unsubscribe/{{ page.id }}/' + tier_id;
-                    }
-                    break;
+	<!-- Modal -->
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="editModalTitle"></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div
+					class="modal-body" id="editModalBody">{# dynamic HTML goes here dependent on modal toggle #}
 
-                case 1:
-                    // subscribe
-                    response = confirm("Are you sure you would like to subscribe to the " + title + " for {{ page.title }}? This will remove any existing subscriptions to this site.");
-                    if (response) {
-                        window.location.href = '/subscribe/{{ page.id }}/' + tier_id + '/' + unsub_tier;
-                    }
-                    break;
-            }
-        }
-    </script>
-	{% endblock %}
+				</div>
+				<div class="modal-footer" id="editModalFooter">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="messageModalTitle">Subscription Notice</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="messageModalBody"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(function () {
+			const params = new URLSearchParams(window.location.search);
+			if (params.has('message')) {
+				alert(params.get('message'));
+			}
+		});
+
+
+	function subscribe(type, title, tier_id, unsub_tier = -1) {
+		response = false;
+
+		switch (type) {
+			case 0:
+				// unsubscribe
+				response = confirm("Are you sure you would like to unsubscribe from       {{ page.title }}? You may choose to re-subscribe at any time.");
+				if (response) {
+					window.location.href = '/unsubscribe/      {{ page.id }}/' + tier_id;
+				}
+				break;
+
+			case 1:
+				// subscribe
+				response = confirm("Are you sure you would like to subscribe to the " + title + " for       {{ page.title }}? This will remove any existing subscriptions to this site.");
+				if (response) {
+					window.location.href = '/subscribe/      {{ page.id }}/' + tier_id + '/' + unsub_tier;
+				}
+				break;
+		}
+	}
+
+	function toggleEdit(type) {
+		editId = 'editModalBody';
+		titleId = 'editModalTitle';
+		form = '';
+
+		switch (type) {
+			case 'title':
+				document.getElementById(titleId).innerHTML = 'Edit Title';
+				form = `
+					<form method="post" action="/page/{{ page.id }}/edit/title">
+						<div class="row">
+							<div class="col">
+								<label for="form_title" class="required">Title: </label>
+							</div>
+							<div class="col">
+								<input type="text" id="form_title" name="form[title]" required="required" value="{{ page.title }}">
+							</div>
+						</div>
+						<div class="col text-center">
+							<button type="submit" id="form_save" name="form[save]" class="btn btn-primary">Save Changes</button>
+						</div>
+					</form>
+				`;
+			break;
+
+			case 'description':
+				document.getElementById(titleId).innerHTML = 'Edit Description';
+				form = `
+					<form method="post" action="/page/{{ page.id }}/edit/description">
+						<div class="row">
+							<div class="col">
+								<label for="form_description" class="required">Description: </label>
+							</div>
+							<div class="col">
+								<textarea id="form_description" name="form[description]" required="required">{{ page.description }}</textarea>
+							</div>
+						</div>
+						<div class="col text-center">
+							<button type="submit" class="btn btn-primary">Save Changes</button>
+						</div>
+					</form>
+				`;
+				break;
+
+			case 'tiers':
+				document.getElementById(titleId).innerHTML = 'Edit Tiers';
+				form = `
+					<form>
+					</form>
+				`;
+				break;
+		}
+
+		document.getElementById(editId).innerHTML = form;
+		$("#editModal").modal('toggle');
+	}
+	</script>
+{% endblock %}
