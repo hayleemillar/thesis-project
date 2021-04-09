@@ -4,18 +4,11 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Page;
 
 
 class IndexController extends AbstractController
 {
-    //  /**
-    //   * @Route("/", name="index")
-    //   */
-    // public function index()
-    // {
-    //     return $this->render('index.html.twig');
-    // }
-
     /**
      * @Route("/about", name="about")
      */
@@ -29,8 +22,14 @@ class IndexController extends AbstractController
      */
     public function text()
     {
+        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+        $pages = $page_repo->findBy(
+            array('type' => 'text')
+        );
+
         return $this->render('media-list.html.twig', [
-            'type' => 'text'
+            'type' => 'text',
+            'pages' => $pages
         ]);
     }
 
@@ -39,8 +38,14 @@ class IndexController extends AbstractController
      */
     public function audio()
     {
+        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+        $pages = $page_repo->findBy(
+            array('type' => 'audio')
+        );
+
         return $this->render('media-list.html.twig', [
-            'type' => 'audio'
+            'type' => 'audio',
+            'pages' => $pages
         ]);
     }
 
@@ -49,8 +54,14 @@ class IndexController extends AbstractController
      */
     public function video()
     {
+        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+        $pages = $page_repo->findBy(
+            array('type' => 'video')
+        );
+
         return $this->render('media-list.html.twig', [
-            'type' => 'video'
+            'type' => 'video',
+            'pages' => $pages
         ]);
     }
 }

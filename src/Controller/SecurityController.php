@@ -46,7 +46,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index()
+    public function index($message = NULL)
     {
         return $this->render('index.html.twig');
     }
@@ -54,7 +54,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/profile", name="profile")
      */
-    public function profile() {
+    public function profile($message = NULL) {
         
         $user = $this->getUser();
 
@@ -77,16 +77,22 @@ class SecurityController extends AbstractController
                 'title' => $tier_data->getTitle(),
                 'site' => $page_data->getTitle(),
                 'amount' => $tier_data->getAmount(),
-                'id' => $page_data->getId()
+                'id' => $page_data->getId(),
+                'url'=> $page_data->getUrl()
             ];
 
             $id = $sub->getId();
         }
-
+        
+        $pages = $page_repo->findBy(
+            array('user' => $user->getId())
+        );
 
         return $this->render('security/profile.html.twig', [
             'name' => $user->getName(),
             'subs' => $subscriptions,
+            'pages' => $pages,
+            'message' => $message
         ]);
     }
 

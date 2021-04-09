@@ -3,52 +3,53 @@
 block body %}
 
 <div class="jumbotron bg-blue">
-  <h1 class="display-6">Creators own their content and monetize it on their terms.<br>
-				Your subscriptions, all in one place.</h1>
+  <h1 class="display-6">Welcome to a new kind of platform.</h6>
+  <h3 class="display-6">Creators own their content and monetize it on their terms.<br>
+				Your subscriptions, all in one place.</h3>
   <a class="btn btn-primary" href="{{ path('about') }}" style="margin-top:40px;">Learn more</a>
 </div>
 
 <div style="padding: 4rem 2rem;">
-  <h3 class="text-center">Begin your journey by picking one of the following to explore:</h3>
+  <h2 class="text-center">Begin your journey by picking one of the following to explore:</h2>
   <div class="d-flex justify-content-around" style="margin-top:60px;margin-bottom: 60px;">
-      <div class="circle" data-toggle="tooltip" data-placement="top" title="text"><img class="btn-svg" src={{ asset('images/text.svg') }}></div>
-      <div class="circle" data-toggle="tooltip" data-placement="top" title="audio"><img class="btn-svg" src={{ asset('images/audio.svg') }}></div>
-      <div class="circle" data-toggle="tooltip" data-placement="top" title="video"><img class="btn-svg btn-video" src={{ asset('images/video.svg') }}></div>
+      <a class="circle" data-toggle="tooltip" data-placement="top" title="text" href="{{ path('text') }}"><img class="btn-svg" src={{ asset('images/text.svg') }}></a>
+      <a class="circle" data-toggle="tooltip" data-placement="top" title="audio" href="{{ path('audio') }}"><img class="btn-svg" src={{ asset('images/audio.svg') }}></a>
+      <a class="circle" data-toggle="tooltip" data-placement="top" title="video" href="{{ path('video') }}"><img class="btn-svg btn-video" src={{ asset('images/video.svg') }}></a>
   </div>
 </div>
 
 <div class="jumbotron bg-green">
-  <h1 class="display-6 text-left">Reviews from creators:</h1>
+  <h2 class="display-6 text-left">Reviews from creators:</h2>
   <div class="d-flex justify-content-around" style="margin-top:60px;margin-bottom: 60px;">
     <div class="card" style="width: 25rem;">
       <img src={{ asset('images/alexis-rose.jpg') }} class="card-img-top" alt="Alexis Rose">
       <div class="card-body">
         <h5 class="card-title text-center">Alexis Rose</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <div class="text-center"><a href="#" class="btn btn-primary button-blue">view profile</a></div>
+        <p class="card-text">Roots has allowed me to gain a massive following for my PR advice. I was able to gain the extra income I needed, while still providing insight to my followers!</p>
+        {# <div class="text-center"><a href="#" class="btn btn-primary button-blue">view profile</a></div> #}
       </div>
     </div>
     <div class="card" style="width: 25rem;">
       <img src={{ asset('images/Johnny-rose.jpg') }} class="card-img-top" alt="Johnny Rose">
       <div class="card-body">
         <h5 class="card-title text-center">Johnny Rose</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <div class="text-center"><a href="#" class="btn btn-primary button-blue">view profile</a></div>
+        <p class="card-text">Using Roots, I have monetized my business practices. Now, I make a living sharing my tips and tricks!</p>
+        {# <div class="text-center"><a href="#" class="btn btn-primary button-blue">view profile</a></div> #}
       </div>
     </div>
     <div class="card" style="width: 25rem;">
       <img src={{ asset('images/patrick-brewer.jpg') }} class="card-img-top" alt="Patrick Brewer">
       <div class="card-body">
         <h5 class="card-title text-center">Patrick Brewer</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <div class="text-center"><a href="#" class="btn btn-primary button-blue">view profile</a></div>
+        <p class="card-text">I've always enjoyed teaching others how to play the guitar-- now I can open it to even more people on my website using Roots!</p>
+        {# <div class="text-center"><a href="#" class="btn btn-primary button-blue">view profile</a></div> #}
       </div>
     </div>
   </div>
 </div>
 
 <div style="padding: 4rem 2rem;">
-  <h1 class="display-6 text-right">Why use Roots?</h1>
+  <h2 class="display-6 text-center">Why use Roots?</h2>
   <div class="card w-75 mx-auto" style="margin-top:20px;">
     <div class="card-body">
       <h4 class="text-center" style="margin-top:40px;">Roots gives creators a way to monetize their content without giving up ownership.</h4>
@@ -58,21 +59,21 @@ block body %}
 </div>
 
 <div class="jumbotron bg-blue">
-  <h1 class="display-6 text-left">Reviews from users:</h1>
+  <h2 class="display-6 text-left">Reviews from users:</h2>
   <div class="d-flex justify-content-around" style="margin-top:60px;margin-bottom: 60px;">
     <div class="card" style="width: 25rem;">
       <div class="card-body">
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <p class="card-text">I feel good knowing I can have subscriptions to multiple website with my payment information secure behind one platform.</p>
       </div>
     </div>
     <div class="card" style="width: 25rem;">
       <div class="card-body">
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <p class="card-text">I love being able to manage all of my website subscriptions in one place. The profile dashboard makes it easy to view them all at once in table format.</p>
       </div>
     </div>
     <div class="card" style="width: 25rem;">
       <div class="card-body">
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <p class="card-text">It is really beneficial being able to explore different content creators on one platform.</p>
       </div>
     </div>
   </div>

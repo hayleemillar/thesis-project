@@ -6,8 +6,9 @@
 
 {%
 block body %}
-	<div class="form-content">
-		<h1 class="h3 mb-3 font-weight-normal text-center">Join us!</h1>
+<div class="form-content">
+	<h1 class="h3 mb-3 font-weight-normal text-center">Join us!</h1>
+	<div class="card mx-auto" style="padding:2rem;">
 		{{ form_start(form) }}
 		<div class="form_group">
 			{{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
@@ -39,6 +40,7 @@ block body %}
 			</div>
 		</a> #}
 	</div>
+</div>
 	<p class="text-muted text-center" style="margin-top:10px;">Have an account?
 		<u>
 			<a href="{{ path('app_login') }}">Log in here</a>

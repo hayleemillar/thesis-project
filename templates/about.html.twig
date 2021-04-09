@@ -6,22 +6,26 @@
 {%
 block body %}
 	<div class="jumbotron bg-blue">
-		<h1 class="display-6">Creators own their content and monetize it on their terms.<br>
-			Your subscriptions, all in one place.</h1>
+		<h1 class="display-6">Welcome to a new kind of platform.</h6>
 	</div>
 	<div class="text-content">
-		<h2 class="text-center" style="margin-bottom: 40px;">Designed with both the user and creator experience in mind.</h2>
+		<h2 class="text-center" style="margin-bottom: 40px;">Designed with both the consumer and creator experience in mind.</h2>
 		<div class="card w-75 mx-auto">
 			<div class="card-body">
-				<p style="font-size:1.2rem;">Gone are the days of followers and fans supporting their favorite content creators by suffering through irrelevant advertisements. Now, you can find a refined experience through consolidated subscription management and a distractionless media consumption.</p>
+				<h4>Content Consumer</h4>
+				<p style="font-size:1.2rem;">Advertisements are distracting and can cause detriment to the user experience. With Roots, you can find a refined experience through consolidated subscription management and a distractionless media consumption.</p>
 				<p style="font-size:1.2rem;margin-bottom: 60px;">Manage your subscriptions to multiple websites on one platform. Be able to calculate your spending more easily.</p>
-				<p style="font-size:1.2rem;">Media Creators directly benefit from a platform bolstered by a growing community of creators and their followers. All the while, you are able to maintain ownership and maintenance of your independently hosted website.</p>
+				
+				<h4>Content Creator</h4>
+				<p style="font-size:1.2rem;">Media Creators directly benefit from a platform bolstered by a growing community of creators and their followers. Your website and content remains yours.</p>
 				<p style="font-size:1.2rem;">Give your followers ease of mind through an easy, secure payment system through the platform.</p>
 				<p style="font-size:1.2rem;">And above all, you can monetize your website without having to detract from your followers' experience with advertisements.</p>
 
-				<div class="text-center">
-					<a href="{{ path('registration') }}" class="btn btn-lg button-green" style="margin-top: 60px;">register now!</a>
-				</div>
+				{% if app.user == NULL %}
+					<div class="text-center">
+						<a href="{{ path('registration') }}" class="btn btn-lg button-green" style="margin-top: 60px;">register now!</a>
+					</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>

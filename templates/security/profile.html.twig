@@ -8,30 +8,56 @@
 		<h1 class="display-6">Welcome,
 			{{ name }}.</h1>
 	</div>
-
-	<div
-		class="card w-75 mx-auto" style="margin-top:20px;">
 		{# settings #}
 		<div class="card-body text-center">
-			<a class="btn btn-primary" href="/settings">Settings</a>
-			<a class="btn btn-info" href="/new/page">Create New Page</a>
+			<a class="btn btn-secondary" href="/settings">Settings</a>
+			<a class="btn btn-info bg-green" href="/new/page">Create New Page</a>
 		</div>
-
-		<hr>
-		<div class="d-flex justify-content-between" style="margin:1rem;">
-			<p class="font-weight-bold">Website</p>
-			<p class="font-weight-bold">Subscription Tier</p>
-			<p class="font-weight-bold">Page Link</p>
+		<div
+		class="card w-75 mx-auto" style="margin-top:2rem;padding:2rem;">
+		<h3 class="text-center">Subscriptions</h3>
+		<div class="d-flex" style="margin:1rem;width:100%">
+			<p class="font-weight-bold p-2 flex-fill text-center" style="width:100%">Website</p>
+			<p class="font-weight-bold p-2 flex-fill text-center" style="width:100%">URL</p>
+			<p class="font-weight-bold p-2 flex-fill text-center" style="width:100%">Subscription Tier</p>
+			<p class="font-weight-bold p-2 flex-fill text-center" style="width:100%">Page Link</p>
         </div>
-
 		{# loop thru subscriptions #}
 		{% for sub in subs %}
 		<hr>
-        <div class="d-flex justify-content-between" style="margin:1rem;">
-			<p>{{ sub.site }}</p>
-			<p>{{ sub.title }} : ${{ sub.amount }}</p>
-			<p><a class="btn btn-secondary" href="/page/{{ sub.id }}">view</a></p>
+        <div class="d-flex" style="margin:1rem;">
+			<p class="p-2 flex-fill text-center" style="width:100%">{{ sub.site }}</p>
+			<a class="p-2 flex-fill text-center" href="/outbound/{{ sub.id }}" class="btn btn-link" style="width:100%">{{ sub.url }}</a>
+			<p class="p-2 flex-fill text-center" style="width:100%">{{ sub.title }} : ${{ sub.amount }}</p>
+			<p class="p-2 flex-fill text-center" style="width:100%"><a class="btn btn-secondary" href="/page/{{ sub.id }}">view</a></p>
+        </div>
+		{% endfor %}
+		</div>
+
+		<div
+		class="card w-75 mx-auto" style="margin-top:2rem;padding:2rem;">
+		<h3 class="text-center">Pages</h3>
+		<div class="d-flex" style="margin:1rem;">
+			<p class="font-weight-bold p-2 flex-fill text-center" style="width:100%">Website</p>
+			<p class="font-weight-bold p-2 flex-fill text-center" style="width:100%">URL</p>
+			<p class="font-weight-bold p-2 flex-fill text-center" style="width:100%">Page Link</p>
+        </div>
+		{% for page in pages %}
+		<hr>
+        <div class="d-flex" style="margin:1rem;">
+			<p class="p-2 flex-fill text-center" style="width:100%">{{ page.title }}</p>
+			<a class="p-2 flex-fill text-center" style="width:100%" href="{{ page.url }}" class="btn btn-link">{{ page.url }}</p>
+			<p class="p-2 flex-fill text-center" style="width:100%"><a class="btn btn-secondary" href="/page/{{ page.id }}">view</a></p>
         </div>
 		{% endfor %}
 	</div>
+
+	<script>
+		$(function () {
+			const params = new URLSearchParams(window.location.search);
+			if (params.has('message')) {
+				alert(params.get('message'));
+			}
+		});
+	</script>
 {% endblock %}

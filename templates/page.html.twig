@@ -29,7 +29,7 @@
 					<!-- Button trigger modal -->
 					{# <button type="button" class="btn btn-secondary mx-auto" data-toggle="modal" data-target="#editModal"> #}
 					{% if owner %}
-						<button type="button" class="btn btn-secondary mx-auto" onclick="toggleEdit('description');"> edit
+						<button type="button" class="btn btn-orange mx-auto" onclick="toggleEdit('description');"> edit
 						</button>
 					{% endif %}
 				</h3>
@@ -40,7 +40,7 @@
 				<h3>Subscription Tiers
 					<!-- Button trigger modal -->
 					{% if owner %}
-						<button type="button" class="btn btn-secondary mx-auto" onclick="toggleEdit('tiers');">
+						<button type="button" class="btn btn-orange mx-auto" onclick="toggleEdit('tiers');">
 							edit
 						</button>
 					{% endif %}
@@ -59,14 +59,19 @@
 							{% else %}
 								{# <a class="btn btn-primary" href="/subscribe/1/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">select</a> #}
 								{% if sub != null %}
-									<a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }}, {{ sub.getSubTier() }})" style="width:12rem;margin: 1rem auto;">select</a>
+									<a class="btn btn-info bg-green" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }}, {{ sub.getSubTier() }})" style="width:12rem;margin: 1rem auto;">select</a>
 								{% else %}
-									<a class="btn btn-primary" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">select</a>
+									<a class="btn btn-info bg-green" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">select</a>
 								{% endif %}
 							{% endif %}
 						</div>
 					{% endfor %}
 				</div>
+
+				<div class="d-flex justify-content-between" style="margin:1rem;margin-top:5rem">
+					<a class="btn btn-orange" href="javascript:deletePage()" style="width:12rem;margin: 1rem auto;">Delete Page</a>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -77,7 +82,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="editModalTitle"></h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Cance">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -86,7 +91,7 @@
 
 				</div>
 				<div class="modal-footer" id="editModalFooter">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
@@ -98,13 +103,13 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="messageModalTitle">Subscription Notice</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Cancel">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body" id="messageModalBody"></div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
@@ -117,6 +122,13 @@
 				alert(params.get('message'));
 			}
 		});
+	
+	function deletePage() {
+		response = confirm("Are you sure you would like to delete {{ page.title }}?");
+		if (response) {
+			window.location.href = '/delete/   {{ page.id }}';
+		}
+	}
 
 
 	function subscribe(type, title, tier_id, unsub_tier = -1) {
@@ -125,17 +137,17 @@
 		switch (type) {
 			case 0:
 				// unsubscribe
-				response = confirm("Are you sure you would like to unsubscribe from       {{ page.title }}? You may choose to re-subscribe at any time.");
+				response = confirm("Are you sure you would like to unsubscribe from {{ page.title }}? You may choose to re-subscribe at any time.");
 				if (response) {
-					window.location.href = '/unsubscribe/      {{ page.id }}/' + tier_id;
+					window.location.href = '/unsubscribe/{{ page.id }}/' + tier_id;
 				}
 				break;
 
 			case 1:
 				// subscribe
-				response = confirm("Are you sure you would like to subscribe to the " + title + " for       {{ page.title }}? This will remove any existing subscriptions to this site.");
+				response = confirm("Are you sure you would like to subscribe to the " + title + " for {{ page.title }}? This will remove any existing subscriptions to this site.");
 				if (response) {
-					window.location.href = '/subscribe/      {{ page.id }}/' + tier_id + '/' + unsub_tier;
+					window.location.href = '/subscribe/{{ page.id }}/' + tier_id + '/' + unsub_tier;
 				}
 				break;
 		}
@@ -188,8 +200,7 @@
 			case 'tiers':
 				document.getElementById(titleId).innerHTML = 'Edit Tiers';
 				form = `
-					<form>
-					</form>
+					
 				`;
 				break;
 		}

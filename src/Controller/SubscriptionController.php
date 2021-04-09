@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\User;
 use App\Entity\Page;
 use App\Entity\SubscriptionTier;
 use App\Entity\UserSubscription;
@@ -14,10 +15,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 
 class SubscriptionController extends AbstractController
 {
+    private $jwt;
+
+    public function __construct(JWTTokenManagerInterface $jwt)
+    {
+        $this->jwt = $jwt;
+    }
 
     /**
      * @Route("/page/{id}", name="page")
@@ -232,5 +240,74 @@ class SubscriptionController extends AbstractController
             }
         }
         return $this->render('security/unauthorized.html.twig');
+    }
+
+    /**
+     * @Route("/delete/{id}", name="page_delete")
+     */
+    public function deletePage(int $id) {
+        $user = $this->getUser();
+        if ($user) { 
+            // retrieve page from database
+            $page_repo = $this->getDoctrine()->getRepository(Page::class);
+            $page = $page_repo->find($id);
+
+            if ($user->getId() == $page->getUser()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($page);
+                $em->flush();
+
+                return $this->redirectToRoute('profile', 
+                [
+                    'id' => $page->getId(),
+                    'message' => 'Your page has been successfully deleted.'
+                ]);
+            }
+        }
+        return $this->render('security/unauthorized.html.twig');
+    }
+
+    /**
+     * @Route("/outbound/{id}", name="page_outbound")
+     */
+    public function outbound(int $id) {
+        $token = '';
+
+        // retrieve page from database
+        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+        $page = $page_repo->find($id);
+
+        // retrieve tiers for page
+        $tier_repo = $this->getDoctrine()->getRepository(SubscriptionTier::class);
+        $tiers = $tier_repo->findBy(
+            array('page' => $page->getId()),
+        );
+
+        $user = $this->getUser();
+        if ($user) {  
+            // check to see if user has subscription
+            // retrieve user subscriptions
+            $sub_repo = $this->getDoctrine()->getRepository(UserSubscription::class);
+            foreach ($tiers as $tier) {
+                $sub = $sub_repo->findOneBy(
+                    array(
+                        'user' => $user->getId(),
+                        'sub_tier' => $tier->getId()
+                    ),
+                );
+                if ($sub) {
+                    break;
+                }
+            }
+
+            if ($sub) {
+                $temp = new User();
+                $temp->setEmail($user->getEmail());
+                $temp->setName($user->getName());
+
+                $token = $this->jwt->create($temp);
+            }
+        }
+        return $this->redirect($page->getUrl() . '?roots=' . $token);
     }
 }

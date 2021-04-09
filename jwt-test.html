@@ -16,7 +16,7 @@
         const params = new URLSearchParams(window.location.search);
         
         // check for jwt in query string parameters
-        if (params.has('roots')) {
+        if (params.has('roots') && params.get('roots') != '') {
             const pub_key = 
                 '-----BEGIN PUBLIC KEY----- \
                 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAsY4GTx6ay6oJIimBa2AN \

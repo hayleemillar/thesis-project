@@ -5,7 +5,7 @@
 
 {%
 block body %}
-	<div class="jumbotron bg-blue">
+	<div class="jumbotron bg-green">
 		<h1 class="display-6">Explore {{type}}.</h1>
 	</div>
 	<div class="text-content" style="margin-top:30px;">
@@ -13,7 +13,22 @@ block body %}
 			<input class="form-control form-control-med mr-3 w-50" type="text" placeholder="Search" aria-label="Search">
 			<i class="fa fa-search fa-lg" style="color:#588157;" aria-hidden="true"></i>
 		</form>
-        <h4 style="margin-top:60px;margin-bottom:20px;">Trending Creators</h4>
+
+		<div
+		class="card w-75 mx-auto" style="margin-top:20px;">
+			<h4 class="text-center" style="margin-top:40px;margin-bottom:20px;">Creators</h4>
+			{% for page in pages %}
+			<hr>
+			<div class="d-flex justify-content-between" style="margin:1rem;">
+				<p>{{ page.title }}</p>
+				<a href="{{ page.url }}" class="btn btn-link">{{ page.url }}</p>
+				<p><a class="btn btn-secondary" href="/page/{{ page.id }}">view</a></p>
+			</div>
+			{% endfor %}
+		</div>
+
+
+        {# <h4 style="margin-top:60px;margin-bottom:20px;">Trending Creators</h4>
 		<div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
 			<div class="carousel-inner">
 				<div class="carousel-item active" data-interval="10000">
@@ -127,6 +142,6 @@ block body %}
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 				<span class="sr-only">Next</span>
 			</a>
-		</div>
+		</div> #}
 	</div>
 {% endblock %}
