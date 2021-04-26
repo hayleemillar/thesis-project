@@ -10,6 +10,9 @@
 
 	<div class="card w-75 mx-auto" style="margin-top:20px;">
 		<div class="mx-auto" style="margin:2rem;">
+			{% if message %}
+				<div class="alert alert-danger">{{ message }}</div>
+			{% endif %}
 			{{ form_start(form) }}
 			<div>
 				{{ form_errors(form) }}
@@ -22,8 +25,7 @@
 				<div class="col">
 					{{ form_widget(form.url) }}
 				</div>
-				<div class="w-100 text-danger">{{form_errors(form.url) }}</div>
-				<p class="w-100 font-italic text-right">Note: The URL cannot be changed once submitted.</p>
+				<div class="w-100">{{form_errors(form.url) }}</div>
 			</div>
 			<div class="row">
 				<div class="col">
@@ -32,7 +34,7 @@
 				<div class="col">
 					{{ form_widget(form.title) }}
 				</div>
-				<div class="w-100 text-danger">{{form_errors(form.title) }}</div>
+				<div class="w-100">{{form_errors(form.title) }}</div>
 			</div>
 			<div class="row">
 				<div class="col">
@@ -41,7 +43,7 @@
 				<div class="col">
 					{{ form_widget(form.type) }}
 				</div>
-				<div class="w-100 text-danger">{{form_errors(form.type) }}</div>
+				<div class="w-100">{{form_errors(form.type) }}</div>
 			</div>
 			<div class="row">
 				<div class="col">
@@ -50,7 +52,7 @@
 				<div class="col">
 					{{ form_widget(form.description) }}
 				</div>
-				<div class="w-100 text-danger">{{form_errors(form.description) }}</div>
+				<div class="w-100">{{form_errors(form.description) }}</div>
 			</div>
 			<div class="row">
 				<div class="col">
@@ -59,11 +61,11 @@
 				<div class="col">
 					{{ form_widget(form.private) }}
 				</div>
-				<div class="w-100 text-danger">{{form_errors(form.private) }}</div>
+				<div class="w-100">{{form_errors(form.private) }}</div>
 			</div>
 			<div class="row">
 				<div class="col text-center">
-					{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+					{{ form_widget(form.save, {'attr': {'class': 'btn btn-lg btn-primary button-submit'}}) }}
 				</div>
 			</div>
 			{{ form_end(form) }}

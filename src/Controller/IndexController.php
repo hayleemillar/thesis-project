@@ -5,10 +5,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Page;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 
 class IndexController extends AbstractController
 {
+
+    private $params;
+     
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->params = $params;
+    }
+
+    /**
+     * @Route("/pdf", name="thesis")
+     */
+    public function thesis()
+    {
+        return new BinaryFileResponse($this->params->get('kernel.project_dir') . '/' .'thesis.pdf');
+    }
+
     /**
      * @Route("/about", name="about")
      */
@@ -61,6 +79,20 @@ class IndexController extends AbstractController
 
         return $this->render('media-list.html.twig', [
             'type' => 'video',
+            'pages' => $pages
+        ]);
+    }
+
+    /**
+     * @Route("/all", name="all")
+     */
+    public function all()
+    {
+        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+        $pages = $page_repo->findAll();
+
+        return $this->render('media-list.html.twig', [
+            'type' => 'all',
             'pages' => $pages
         ]);
     }

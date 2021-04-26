@@ -21,11 +21,12 @@ block body %}
 				<p style="font-size:1.2rem;">Give your followers ease of mind through an easy, secure payment system through the platform.</p>
 				<p style="font-size:1.2rem;">And above all, you can monetize your website without having to detract from your followers' experience with advertisements.</p>
 
-				{% if app.user == NULL %}
-					<div class="text-center">
-						<a href="{{ path('registration') }}" class="btn btn-lg button-green" style="margin-top: 60px;">register now!</a>
-					</div>
-				{% endif %}
+				<div class="text-center" style="margin-top: 60px;">
+					{% if app.user == NULL %}
+						<a href="{{ path('registration') }}" class="btn button-blue">register now!</a>
+					{% endif %}<br>
+					<a class="btn button-green" href="{{ path('all') }}" style="margin-top:10px;">explore content</a>
+				</div>
 			</div>
 		</div>
 	</div>

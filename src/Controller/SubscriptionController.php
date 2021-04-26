@@ -176,9 +176,7 @@ class SubscriptionController extends AbstractController
                         'video' => 'video',
                         'text' => 'text',
                     ],
-                    'choice_label' => function ($choice, $key, $value) {
-                        return $key;
-                    },])
+                ])
                 ->add('title', TextType::class)
                 ->add('description', TextareaType::class)
                 ->add('private', CheckboxType::class, ['required' => false])
@@ -188,22 +186,41 @@ class SubscriptionController extends AbstractController
                 // check for form submission
                 if ($request->isMethod('POST')) {
                     $form->submit($request->request->get($form->getName()));
-
+                    
                     // ensure valid
                     if ($form->isSubmitted() && $form->isValid()) {
+                        // check the URL isn't already existent in DB
+                        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+                        $existing_page = $page_repo->findOneBy(
+                            array('url' => $page->getUrl())
+                        );
+
+                        // if a page is found by URL, do NOT pass go
+                        if ($existing_page) {
+                            return $this->render('page-form.html.twig', [
+                                'form' => $form->createView(),
+                                'message' => 'Sorry, the URL you chose already has a landing page associated with it. Please choose another.'
+                            ]);
+                        }
+
                         // save new page
                         $page->setUser($user->getId());
 
+                        // commit to db
                         $em = $this->getDoctrine()->getManager();
                         $em->persist($page);
                         $em->flush();
 
+                        // redirect to newly created page
                         return $this->redirectToRoute('page', 
                             ['id' => $page->getId()]);
                     }
                 }
 
-            return $this->render('page-form.html.twig', ['form' => $form->createView()]);
+            return $this->render('page-form.html.twig', [
+                'form' => $form->createView(),
+                'message' => NULL
+            ]);
         } else { return $this->render('security/unauthorized.html.twig'); }
     }
 
@@ -230,10 +247,12 @@ class SubscriptionController extends AbstractController
                         break;
                 }
 
+                // commit page to db
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($page);
                 $em->flush();
 
+                // redirect with message
                 return $this->redirectToRoute('page', 
                     ['id' => $page->getId(),
                     'message' => 'Page ' . $type . ' has been updated.']);
@@ -257,6 +276,7 @@ class SubscriptionController extends AbstractController
                 $em->remove($page);
                 $em->flush();
 
+                // redirect with message
                 return $this->redirectToRoute('profile', 
                 [
                     'id' => $page->getId(),

@@ -54,6 +54,9 @@
             <a class="nav-link" href="{{ path('video') }}">video</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{{ path('all') }}">all</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{{ path('about') }}">about</a>
           </li>
         </ul>
@@ -80,9 +83,60 @@
     {% block body %}
     {% endblock %} 
 
-    <div class="footer text-center text-muted">
-      &#169; roots <script>document.write(new Date().getFullYear())</script>. All rights reserved.
-    </div>
+    <!-- Footer -->
+    <hr class="mx-auto w-75">
+    <footer class="text-center text-lg-start">
+      <!-- Grid container -->
+      <div class="container p-4">
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Welcome</h5>
+
+            <p>
+              You're currently viewing a prototype of Roots, a platform designed as part of an undergraduate thesis at NCF, developed by Haylee Millar.
+            </p>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Company</h5>
+
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="{{ path('about') }}" class="text-dark" style="display:block;">About</a>
+                <a href="{{ path('thesis') }}" class="text-dark" style="display:block;" target="_blank">Thesis PDF</a>
+                <a href="{{ path('thesis') }}" class="text-dark" style="display:block;" target="_blank">Thesis Presentation</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Resources</h5>
+
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="#!" class="text-dark" style="display:block;">How does it work?</a>
+                <a href="#!" class="text-dark" style="display:block;">Tutorials</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      <!-- Grid container -->
+
+      <!-- Copyright -->
+      <div class="text-center p-3">
+        &#169; roots <script>document.write(new Date().getFullYear())</script>. All rights reserved.
+      </div>
+      <!-- Copyright -->
+    </footer>
 
     {% block javascripts %}
       {{ encore_entry_script_tags('app') }}
