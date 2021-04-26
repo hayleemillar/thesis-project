@@ -5,6 +5,9 @@
 
 {% block body %}
 	<div class="form-content">
+		{% if message %}
+			<div class="alert alert-danger">{{ message }}</div>
+		{% endif %}
 		<form method="post">
 			<h1 class="h3 mb-3 font-weight-normal text-center">Settings.</h1>
 			<label for="inputName">name</label>

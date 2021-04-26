@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\UserSubscription;
 use App\Entity\SubscriptionTier;
 use App\Entity\Page;
@@ -19,6 +20,7 @@ class SecurityController extends AbstractController
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
+        // we'll need this for later
         $this->passwordEncoder = $passwordEncoder;
     }
 
@@ -99,44 +101,59 @@ class SecurityController extends AbstractController
     /**
      * @Route("/settings", name="settings")
      */
-    public function display_settings()
+    public function settings(Request $request)
     {
         // handle display
         $user = $this->getUser();
 
+        if ($request->isMethod('POST')) {
+            // check existence of email in DB that is NOT the current user
+            $user_repo = $this->getDoctrine()->getRepository(User::class);
+            $existing_user = $user_repo->findOneBy(
+                array('email' => $request->request->get('email'))
+            );
+
+            // if there is a user with email AND its not the CURRENT use, we have a problem
+            if ($existing_user && ($user->getId() != $existing_user->getId())) {
+                return $this->render('security/settings.html.twig', [
+                    'name' => $request->request->get('name'),
+                    'email' => $request->request->get('email'),
+                    'message' => 'The email you have requested has already been associated with another account. Please choose a different email for your account.'
+                ]);
+            }
+
+            // handle submission
+            $user->setName($request->request->get('name'));
+            $user->setEmail($request->request->get('email'));
+
+
+            $old_pass = $request->request->get('oldpassword');
+            $pass = $request->request->get('password');
+            $pass1 = $request->request->get('password1');
+
+            if ($this->passwordEncoder->isPasswordValid($user, $old_pass) && ($pass == $pass1)){
+                $user->setPassword($this->passwordEncoder->encodePassword(
+                    $user,
+                    $pass
+                ));
+            }
+
+            // save
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->render('security/settings.html.twig', [
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'message' => 'Your account has been successfully updated.'
+            ]);
+        }
+
         return $this->render('security/settings.html.twig', [
             'name' => $user->getName(),
             'email' => $user->getEmail(),
+            'message' => NULL
         ]);
-    }
-
-    /**
-     * @Route("/settings/post", name="post_settings")
-     */
-    public function post_settings(Request $request) : RedirectResponse
-    {
-        $user = $this->getUser();
-
-        // handle submission
-        $user->setName($request->request->get('name'));
-        $user->setEmail($request->request->get('email'));
-
-        $old_pass = $request->request->get('oldpassword');
-        $pass = $request->request->get('password');
-        $pass1 = $request->request->get('password1');
-
-        if ($this->passwordEncoder->isPasswordValid($user, $old_pass) && ($pass == $pass1)){
-            $user->setPassword($this->passwordEncoder->encodePassword(
-                $user,
-                $pass
-            ));
-        }
-
-        // save
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
-        
-        return $this->redirectToRoute('settings');
     }
 }
