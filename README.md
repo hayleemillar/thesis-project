@@ -1,14 +1,5 @@
-# thesis-project
-
-#### Completed Tasks:
-1. Base demo website
-2. Login authentication
-3. JWT demo: https://thesis.lndo.site/jwt (requires registered and authenticated user)
-
-#### Tasks to Complete:
-1. Continue building out website content & make mobile friendly
-2. Build out JWT demo to be more user friendly
-3. Build out database architecture
+## Hello and Welcome!
+You have found my undergraduate thesis, Roots.
 
 #### Software Requirements:
 Lando: https://lando.dev/  
