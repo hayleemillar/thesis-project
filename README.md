@@ -16,4 +16,4 @@ Node Package Manager: https://www.npmjs.com/get-npm
 3. Use NPM to install required packages: `npm install`
 
 Success! The website should now be served at https://thesis.lndo.site.  
-You should now be able to create a user and view the JWT demo hidden behind the authentication wall.
+You should now be able to create a user within a database and view the JWT demo hidden behind the authentication wall. Be sure to hash your password properly!
