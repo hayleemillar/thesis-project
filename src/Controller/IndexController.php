@@ -28,6 +28,14 @@ class IndexController extends AbstractController
     }
 
     /**
+     * @Route("/pdf-presentation", name="thesis-presentation")
+     */
+    public function thesis_presentation()
+    {
+        return new BinaryFileResponse($this->params->get('kernel.project_dir') . '/' .'thesis-presentation.pdf');
+    }
+
+    /**
      * @Route("/about", name="about")
      */
     public function about()
