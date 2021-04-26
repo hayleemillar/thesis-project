@@ -15,6 +15,9 @@
 		</h1>
 	</div>
 	<div class="text-content">
+		{% if message %}
+			<div class="alert alert-danger">{{ message }}</div>
+		{% endif %}
 		<div class="card w-75 mx-auto" style="margin-top:20px;">
 			<div style="margin:2rem;">
 				<h3>Website
@@ -22,6 +25,10 @@
 					{# <button type="button" class="btn btn-secondary mx-auto" data-toggle="modal" data-target="#editModal"> #}
 				</h3>
 				<a href="{{ page.url }}" class="btn btn-link">{{ page.url }}</a>
+				{% if owner %}
+					<button type="button" class="btn btn-orange mx-auto" onclick="toggleEdit('url');"> edit
+					</button>
+				{% endif %}
 
 				<hr style="margin-top:2em;margin-bottom:2rem;">
 
@@ -68,8 +75,18 @@
 					{% endfor %}
 				</div>
 
-				<div class="d-flex justify-content-between" style="margin:1rem;margin-top:5rem">
-					<a class="btn btn-orange" href="javascript:deletePage()" style="width:12rem;margin: 1rem auto;">Delete Page</a>
+				{% if page.private %}
+					<div class="d-flex justify-content-between" style="margin:1rem;margin-top:5rem">
+						<a class="btn btn-blue" href="javascript:publish(0)" style="width:12rem;margin: 1rem auto;">Publish</a>
+					</div>
+				{% else %}
+					<div class="d-flex justify-content-between" style="margin:1rem;margin-top:5rem">
+						<a class="btn btn-blue" href="javascript:publish(1)" style="width:12rem;margin: 1rem auto;">Unpublish</a>
+					</div>
+				{% endif %}
+
+				<div class="d-flex justify-content-between" style="margin:1rem;">
+					<a class="btn btn-orange" href="javascript:deletePage()" style="width:12rem;margin: 1rem auto;">Delete</a>
 				</div>
 
 			</div>
@@ -115,6 +132,7 @@
 		</div>
 	</div>
 
+	<script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
 	<script>
 		$(function () {
 			const params = new URLSearchParams(window.location.search);
@@ -126,7 +144,18 @@
 	function deletePage() {
 		response = confirm("Are you sure you would like to delete {{ page.title }}?");
 		if (response) {
-			window.location.href = '/delete/   {{ page.id }}';
+			window.location.href = '/delete/{{ page.id }}';
+		}
+	}
+
+	function publish(action) {
+		if (action) {
+			response = confirm("Are you sure you would like to unpublish {{ page.title }}?");
+		} else {
+			response = confirm("Are you sure you would like to publish {{ page.title }}?");
+		}
+		if (response) {
+			window.location.href = '/publish/{{ page.id }}';
 		}
 	}
 
@@ -176,7 +205,27 @@
 						</div>
 					</form>
 				`;
-			break;
+				break;
+
+			case 'url':
+				document.getElementById(titleId).innerHTML = 'Edit URL';
+				form = `
+					<form method="post" action="/page/{{ page.id }}/edit/url">
+						<div class="row">
+							<div class="col">
+								<label for="form_url" class="required">URL: </label>
+							</div>
+							<div class="col">
+								<input type="text" id="form_url" name="form[url]" required="required" value="{{ page.url }}">
+							</div>
+						</div>
+						<div class="col text-center">
+							<button type="submit" id="form_save" name="form[save]" class="btn btn-primary">Save Changes</button>
+						</div>
+					</form>
+				`;
+				break;
+			
 
 			case 'description':
 				document.getElementById(titleId).innerHTML = 'Edit Description';
@@ -200,13 +249,39 @@
 			case 'tiers':
 				document.getElementById(titleId).innerHTML = 'Edit Tiers';
 				form = `
-					
+					<h2>
+						Demo
+					</h2>
+					<p>
+						Try to drag and drop items within lists or between lists.
+					</p>
+					<ul class="list-group" id="demo1">
+						<li class="list-group-item">Cras justo odio</li>
+						<li class="list-group-item">Dapibus ac facilisis in</li>
+						<li class="list-group-item">Morbi leo risus</li>
+						<li class="list-group-item">Porta ac consectetur ac</li>
+						<li class="list-group-item">Vestibulum at eros</li>
+					</ul>
 				`;
 				break;
 		}
 
 		document.getElementById(editId).innerHTML = form;
+
+		if (type == 'tiers') {
+			Sortable.create(demo1, {
+				animation: 100,
+				group: 'list-1',
+				draggable: '.list-group-item',
+				handle: '.list-group-item',
+				sort: true,
+				filter: '.sortable-disabled',
+				chosenClass: 'active'
+			});
+		}
+
 		$("#editModal").modal('toggle');
 	}
+
 	</script>
 {% endblock %}

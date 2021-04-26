@@ -30,7 +30,7 @@ class SubscriptionController extends AbstractController
     /**
      * @Route("/page/{id}", name="page")
      */
-    public function page(int $id)
+    public function page(int $id, string $message = NULL)
     {
         $owner = false;
 
@@ -47,6 +47,11 @@ class SubscriptionController extends AbstractController
         if ($user) {
             if ($user->getId() == $page->getUser()) {
                 $owner = true;
+            }
+
+            if (!$owner && ($page->getPrivate() == 1)) {
+                // if the user is not the owner and the page is private, send to unauth page
+                return $this->render('security/unauthorized.html.twig');
             }
 
             // retrieve user subscriptions
@@ -69,7 +74,8 @@ class SubscriptionController extends AbstractController
             'owner' => $owner,
             'page' => $page,
             'tiers' => $tiers,
-            'sub' => $sub
+            'sub' => $sub,
+            'message' => $message
         ]);
     }
 
@@ -186,9 +192,11 @@ class SubscriptionController extends AbstractController
                 // check for form submission
                 if ($request->isMethod('POST')) {
                     $form->submit($request->request->get($form->getName()));
+                    var_dump($request->request->get($form->getName()));
                     
                     // ensure valid
-                    if ($form->isSubmitted() && $form->isValid()) {
+                    // if ($form->isSubmitted() && $form->isValid()) {
+                    if ($form->isSubmitted()) {
                         // check the URL isn't already existent in DB
                         $page_repo = $this->getDoctrine()->getRepository(Page::class);
                         $existing_page = $page_repo->findOneBy(
@@ -240,6 +248,21 @@ class SubscriptionController extends AbstractController
                     case 'title':
                         $page->setTitle($request->request->get('form')['title']);
                         break;
+                    case 'url':
+                        // check the URL isn't already existent in DB
+                        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+                        $existing_page = $page_repo->findOneBy(
+                            array('url' => $request->request->get('form')['url'])
+                        );
+
+                        // if a page is found by URL, do NOT pass go
+                        if ($existing_page) {
+                            return $this->page($id, 'Sorry, the URL you chose already has a landing page associated with it. Please choose another.');
+                        }
+
+                        $page->setUrl($request->request->get('form')['url']);
+                        break;
+
                     case 'description':
                         $page->setDescription($request->request->get('form')['description']);
                         break;
@@ -282,6 +305,38 @@ class SubscriptionController extends AbstractController
                     'id' => $page->getId(),
                     'message' => 'Your page has been successfully deleted.'
                 ]);
+            }
+        }
+        return $this->render('security/unauthorized.html.twig');
+    }
+
+    /**
+     * @Route("/publish/{id}", name="page_publish")
+     */
+    public function publishPage(int $id) {
+        $user = $this->getUser();
+        if ($user) { 
+            // retrieve page from database
+            $page_repo = $this->getDoctrine()->getRepository(Page::class);
+            $page = $page_repo->find($id);
+
+            if ($page->getPrivate()) {
+                $page->setPrivate(0);
+                $type = 'published.';
+            } else {
+                $page->setPrivate(1);
+                $type = 'privated.';
+            }
+
+            if ($user->getId() == $page->getUser()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($page);
+                $em->flush();
+
+                // redirect with message
+                return $this->redirectToRoute('page', 
+                    ['id' => $page->getId(),
+                    'message' => 'Page has been ' . $type]);
             }
         }
         return $this->render('security/unauthorized.html.twig');
