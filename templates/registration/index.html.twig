@@ -7,6 +7,9 @@
 {%
 block body %}
 <div class="form-content">
+	{% if message %}
+		<div class="alert alert-danger">{{ message }}</div>
+	{% endif %}
 	<h1 class="h3 mb-3 font-weight-normal text-center">Join us!</h1>
 	<div class="card mx-auto" style="padding:2rem;">
 		{{ form_start(form) }}

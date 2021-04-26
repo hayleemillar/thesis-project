@@ -30,6 +30,19 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // first check if email exists already in db
+            $user_repo = $this->getDoctrine()->getRepository(User::class);
+            $existing_user = $user_repo->findBy(
+                array('email' => $user->getEmail())
+            );
+
+            if ($existing_user) {
+                return $this->render('registration/index.html.twig', [
+                    'form' => $form->createView(),
+                    'message' => 'Sorry, that email has already been taken. Please choose a different email for your account.'
+                ]);
+            }
+
             // Encode the new users password
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
 
@@ -46,6 +59,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/index.html.twig', [
             'form' => $form->createView(),
+            'message' => NULL
         ]);
     }
 }
