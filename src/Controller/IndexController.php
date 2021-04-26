@@ -49,9 +49,10 @@ class IndexController extends AbstractController
     public function text()
     {
         $page_repo = $this->getDoctrine()->getRepository(Page::class);
-        $pages = $page_repo->findBy(
-            array('type' => 'text')
-        );
+        $pages = $page_repo->findBy([
+            'type' => 'text',
+            'private' => 0
+        ]);
 
         return $this->render('media-list.html.twig', [
             'type' => 'text',
@@ -65,9 +66,10 @@ class IndexController extends AbstractController
     public function audio()
     {
         $page_repo = $this->getDoctrine()->getRepository(Page::class);
-        $pages = $page_repo->findBy(
-            array('type' => 'audio')
-        );
+        $pages = $page_repo->findBy([
+                'type' => 'audio',
+                'private' => 0
+        ]);
 
         return $this->render('media-list.html.twig', [
             'type' => 'audio',
@@ -81,9 +83,10 @@ class IndexController extends AbstractController
     public function video()
     {
         $page_repo = $this->getDoctrine()->getRepository(Page::class);
-        $pages = $page_repo->findBy(
-            array('type' => 'video')
-        );
+        $pages = $page_repo->findBy([
+            'type' => 'video',
+            'private' => 0
+        ]);
 
         return $this->render('media-list.html.twig', [
             'type' => 'video',
@@ -97,7 +100,9 @@ class IndexController extends AbstractController
     public function all()
     {
         $page_repo = $this->getDoctrine()->getRepository(Page::class);
-        $pages = $page_repo->findAll();
+        $pages = $page_repo->findBy([
+            'private' => 0
+        ]);
 
         return $this->render('media-list.html.twig', [
             'type' => 'all',

@@ -84,7 +84,7 @@
     {% endblock %} 
 
     <!-- Footer -->
-    <hr class="mx-auto w-75">
+    <hr class="mx-auto w-75" style="margin-top:5rem;">
     <footer class="text-center text-lg-start">
       <!-- Grid container -->
       <div class="container p-4">
@@ -95,20 +95,19 @@
             <h5 class="text-uppercase">Welcome</h5>
 
             <p>
-              You're currently viewing a prototype of Roots, a platform designed as part of an undergraduate thesis at NCF, developed by Haylee Millar.
+              You're currently viewing a prototype of Roots, a platform designed as part of an undergraduate thesis at NCF, developed by Haylee Millar. <br>Submitted Spring 2021.
             </p>
           </div>
           <!--Grid column-->
 
           <!--Grid column-->
           <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase">Company</h5>
+            <h5 class="text-uppercase">Thesis</h5>
 
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="{{ path('about') }}" class="text-dark" style="display:block;">About</a>
-                <a href="{{ path('thesis') }}" class="text-dark" style="display:block;" target="_blank">Thesis PDF</a>
-                <a href="{{ path('thesis-presentation') }}" class="text-dark" style="display:block;" target="_blank">Thesis Presentation</a>
+                <a href="{{ path('thesis') }}" class="text-dark" style="display:block;" target="_blank">Paper</a>
+                <a href="{{ path('thesis-presentation') }}" class="text-dark" style="display:block;" target="_blank">Presentation</a>
               </li>
             </ul>
           </div>
@@ -120,6 +119,7 @@
 
             <ul class="list-unstyled mb-0">
               <li>
+                <a href="{{ path('about') }}" class="text-dark" style="display:block;">About</a>
                 <a href="#!" class="text-dark" style="display:block;">How does it work?</a>
                 <a href="#!" class="text-dark" style="display:block;">Tutorials</a>
               </li>
@@ -133,7 +133,7 @@
 
       <!-- Copyright -->
       <div class="text-center p-3">
-        &#169; roots <script>document.write(new Date().getFullYear())</script>. All rights reserved.
+        &#169; Roots <script>document.write(new Date().getFullYear())</script>. All rights reserved.
       </div>
       <!-- Copyright -->
     </footer>
