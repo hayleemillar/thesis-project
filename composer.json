@@ -9,6 +9,7 @@
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
+        "friendsofsymfony/elastica-bundle": "^5.2",
         "hwi/oauth-bundle": "dev-master#b042ddd",
         "lexik/jwt-authentication-bundle": "^2.10",
         "php-http/guzzle6-adapter": "^2.0",

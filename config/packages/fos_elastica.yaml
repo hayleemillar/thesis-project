@@ -1,0 +1,15 @@
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/setup.md
+fos_elastica:
+    clients:
+        default: { host: 'elasticsearch', port: '9200' }
+    indexes:
+        app:
+            use_alias: true
+            types:
+                pages:
+                    properties:
+                        url: ~
+                        title: ~
+                    persistence:
+                        driver: orm
+                        model: App\Entity\Page

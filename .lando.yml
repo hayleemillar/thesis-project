@@ -7,6 +7,9 @@ services:
   appserver:
     config:
       vhosts: nginx.conf
+  elasticsearch:
+    type: elasticsearch
+    portforward: true
 
 tooling:
   sf:

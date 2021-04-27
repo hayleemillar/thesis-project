@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <b>"{{ q }}"</b>, <p class="h3">{{ 'Your search'}}  <b>{{ results|length }}</b> {{ 'result'}}.</p>
+            </div>
+
+        </div>
+    </div>
+    {% for result in results %}
+        {% set hit = result.result.hit %}
+        {% set page = result.transformed %}
+        <div class="card">
+            <div class="card-header">
+                <h2 class="h3">
+                    {# [{{ ('type_'~article.type)|trans({}, 'blog') }}] {{ article.name }} &raquo; {{ 'score'|trans }} <b>{{ hit._score }}</b> #}
+                    <hr>
+                    <div class="d-flex" style="margin:1rem;">
+                    <p class="p-2 flex-fill text-center" style="width:100%">{{ page.title }}</p>
+                    <a class="p-2 flex-fill text-center" style="width:100%" href="{{ page.url }}" class="btn btn-link">{{ page.url }}</p>
+                    <p class="p-2 flex-fill text-center" style="width:100%"><a class="btn btn-secondary" href="/page/{{ page.id }}">view</a></p>
+                </h2>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="col-md-12">
+        {% if results is empty %}
+            <p class="h3">{{ 'no_results'|trans }}</p>
+        {% endif %}
+    </div>
+
+    <div class="col-md-12">
+        <form class="search-job">
+            <div class="row no-gutters">
+                <div class="col-md mr-md-2">
+                    <div class="form-group">
+                        <div class="form-field">
+                            <div class="icon"><span class="icon-briefcase"></span></div>
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   value="{{ app.request.query.get('q') }}"
+                                   placeholder="Search..."
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-group">
+                        <div class="form-field">
+                            <button type="submit" class="form-control btn btn-secondary">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
