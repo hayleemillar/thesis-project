@@ -1,9 +1,13 @@
 <?php
 namespace App\Controller;
 
+use Elastica\Util;
+use FOS\ElasticaBundle\Finder\TransformedFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Page;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -44,69 +48,35 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/text", name="text")
+     * @Route("/media/{type}", name="media")
      */
-    public function text()
+    public function media(string $type, Request $request, SessionInterface $session, TransformedFinder $pageFinder): Response
     {
-        $page_repo = $this->getDoctrine()->getRepository(Page::class);
-        $pages = $page_repo->findBy([
-            'type' => 'text',
-            'private' => 0
-        ]);
+        if (in_array($type, ['text', 'audio', 'video', 'all'])) {
+            $results = NULL;
+            $pages = NULL;
+            
+            $q = (string) $request->query->get('q', '');
+            if (!empty($q)) {
+                // if user is attempting to make a search
+                $results = !empty($q) ? $pageFinder->findHybrid(Util::escapeTerm($q)) : [];
+                $session->set('q', $q);
+            } else {
+                $page_repo = $this->getDoctrine()->getRepository(Page::class);
+                $pages = $page_repo->findBy([
+                    'type' => $type,
+                    'private' => 0
+                ]);
+            }
 
-        return $this->render('media-list.html.twig', [
-            'type' => 'text',
-            'pages' => $pages
-        ]);
-    }
-
-    /**
-     * @Route("/audio", name="audio")
-     */
-    public function audio()
-    {
-        $page_repo = $this->getDoctrine()->getRepository(Page::class);
-        $pages = $page_repo->findBy([
-                'type' => 'audio',
-                'private' => 0
-        ]);
-
-        return $this->render('media-list.html.twig', [
-            'type' => 'audio',
-            'pages' => $pages
-        ]);
-    }
-
-    /**
-     * @Route("/video", name="video")
-     */
-    public function video()
-    {
-        $page_repo = $this->getDoctrine()->getRepository(Page::class);
-        $pages = $page_repo->findBy([
-            'type' => 'video',
-            'private' => 0
-        ]);
-
-        return $this->render('media-list.html.twig', [
-            'type' => 'video',
-            'pages' => $pages
-        ]);
-    }
-
-    /**
-     * @Route("/all", name="all")
-     */
-    public function all()
-    {
-        $page_repo = $this->getDoctrine()->getRepository(Page::class);
-        $pages = $page_repo->findBy([
-            'private' => 0
-        ]);
-
-        return $this->render('media-list.html.twig', [
-            'type' => 'all',
-            'pages' => $pages
-        ]);
+            return $this->render('media-list.html.twig', [
+                'type' => $type,
+                'pages' => $pages,
+                'q' => $q,
+                'results' => $results
+            ]);
+        } else {
+            return $this->render('security/unauthorized.html.twig');
+        }
     }
 }

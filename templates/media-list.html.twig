@@ -10,21 +10,41 @@ block body %}
 	</div>
 	<div class="text-content" style="margin-top:30px;">
 		<form class="form-inline justify-content-center">
-			<input class="form-control form-control-med mr-3 w-50" type="text" placeholder="Search by name" aria-label="Search">
-			<i class="fa fa-search fa-lg" style="color:#247ba0;" aria-hidden="true"></i>
+			<input class="form-control form-control-med mr-3 w-50" 
+				type="text"
+                name="q"
+                value="{{ app.request.query.get('q') }}"
+                placeholder="Search..."
+            >
+			<button type="submit"><i class="fa fa-search fa-lg" style="color:#247ba0;" aria-hidden="true"></i></button>
 		</form>
 
 		<div
 		class="card w-75 mx-auto" style="margin-top:20px;">
 			<h4 class="text-center" style="margin-top:40px;margin-bottom:20px;">Creators</h4>
-			{% for page in pages %}
-			<hr>
-			<div class="d-flex" style="margin:1rem;">
-			<p class="p-2 flex-fill text-center" style="width:100%">{{ page.title }}</p>
-			<a class="p-2 flex-fill text-center" style="width:100%" href="{{ page.url }}" class="btn btn-link">{{ page.url }}</p>
-			<p class="p-2 flex-fill text-center" style="width:100%"><a class="btn btn-secondary" href="/page/{{ page.id }}">view</a></p>
-        </div>
-			{% endfor %}
+			{% if results %}
+				{% for result in results %}
+					{% set hit = result.result.hit %}
+					{% set page = result.transformed %}
+						{# [{{ ('type_'~article.type)|trans({}, 'blog') }}] {{ article.name }} &raquo; {{ 'score'|trans }} <b>{{ hit._score }}</b> #}
+					<hr>
+					<div class="d-flex" style="margin:1rem;">
+						<p class="p-2 flex-fill text-center" style="width:100%">{{ page.title }}</p>
+						<a class="p-2 flex-fill text-center" style="width:100%" href="{{ page.url }}" class="btn btn-link">{{ page.url }}</p>
+						<p class="p-2 flex-fill text-center" style="width:100%"><a class="btn btn-secondary" href="/page/{{ page.id }}">view</a></p>
+					</div>
+				{% endfor %}
+			{% endif %}
+			{% if pages %}
+				{% for page in pages %}
+					<hr>
+					<div class="d-flex" style="margin:1rem;">
+						<p class="p-2 flex-fill text-center" style="width:100%">{{ page.title }}</p>
+						<a class="p-2 flex-fill text-center" style="width:100%" href="{{ page.url }}" class="btn btn-link">{{ page.url }}</p>
+						<p class="p-2 flex-fill text-center" style="width:100%"><a class="btn btn-secondary" href="/page/{{ page.id }}">view</a></p>
+					</div>
+				{% endfor %}
+			{% endif %}
 		</div>
 
 
