@@ -45,7 +45,9 @@
 				<hr style="margin-top:2em;margin-bottom:2rem;">
 
 				<h3>Subscription Tiers
-				<button type="button" class="btn btn-blue mx-auto" onclick="$('#addModal').modal('toggle');">add</button>
+				{% if owner %}
+					<button type="button" class="btn btn-blue mx-auto" onclick="$('#addModal').modal('toggle');">add</button>
+				{% endif %}
 				</h3>
 				<div class="d-flex justify-content-around">
 					{% for tier in tiers %}
