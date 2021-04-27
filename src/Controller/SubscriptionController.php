@@ -266,8 +266,6 @@ class SubscriptionController extends AbstractController
                     case 'description':
                         $page->setDescription($request->request->get('form')['description']);
                         break;
-                    case 'tiers':
-                        break;
                 }
 
                 // commit page to db
@@ -282,6 +280,80 @@ class SubscriptionController extends AbstractController
             }
         }
         return $this->render('security/unauthorized.html.twig');
+    }
+
+    /**
+     * @Route("/page/edit/tier/{tier_id}")
+     */
+    public function editPageTier(int $tier_id, Request $request) {
+        $user = $this->getUser();
+
+        $tier_repo = $this->getDoctrine()->getRepository(SubscriptionTier::class);
+        $tier = $tier_repo->findOneBy(
+            array('id' => $tier_id),
+        );
+
+        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+        $page = $page_repo->findOneBy(
+            array('id' => $tier->getPage())
+        );
+
+        if ($user->getId() == $page->getUser()) {
+            // check user owns page
+            // if so, handle request
+            $tier->setTitle($request->request->get('form')['title']);
+            $tier->setAmount($request->request->get('form')['amount']);
+            $tier->setDescription($request->request->get('form')['description']);
+
+            // commit page to db
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($tier);
+            $em->flush();
+
+            // redirect with message
+            return $this->redirectToRoute('page', 
+            ['id' => $page->getId(),
+            'message' => 'Page tiers have been updated.']);
+        } else {
+            // unauthorized
+            return $this->render('security/unauthorized.html.twig');
+        }
+    }
+
+    /**
+     * @Route("/add/{page_id}/tier")
+     */
+    public function addPageTier(int $page_id, Request $request) {
+        $user = $this->getUser();
+
+        $tier = new SubscriptionTier();
+
+        $page_repo = $this->getDoctrine()->getRepository(Page::class);
+        $page = $page_repo->findOneBy(
+            array('id' => $page_id)
+        );
+
+        if ($user->getId() == $page->getUser()) {
+            // check user owns page
+            // if so, handle request
+            $tier->setTitle($request->request->get('form')['title']);
+            $tier->setAmount($request->request->get('form')['amount']);
+            $tier->setDescription($request->request->get('form')['description']);
+            $tier->setPage($page_id);
+
+            // commit page to db
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($tier);
+            $em->flush();
+
+            // redirect with message
+            return $this->redirectToRoute('page', 
+            ['id' => $page->getId(),
+            'message' => 'Page tiers have been updated.']);
+        } else {
+            // unauthorized
+            return $this->render('security/unauthorized.html.twig');
+        }
     }
 
     /**
@@ -311,14 +383,52 @@ class SubscriptionController extends AbstractController
     }
 
     /**
+     * @Route("/delete/tier/{id}", name="page_delete")
+     */
+    public function deleteTier(int $id) {
+        $user = $this->getUser();
+        if ($user) { 
+            $tier_repo = $this->getDoctrine()->getRepository(SubscriptionTier::class);
+            $tier = $tier_repo->findOneBy(
+                array('id' => $id),
+            );
+
+            $page_repo = $this->getDoctrine()->getRepository(Page::class);
+            $page = $page_repo->findOneBy(
+                array('id' => $tier->getPage())
+            );
+
+            if ($user->getId() == $page->getUser()) {
+                // confirm current user owns page
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($tier);
+                $em->flush();
+
+                // redirect with message
+                return $this->redirectToRoute('profile', 
+                [
+                    'id' => $page->getId(),
+                    'message' => 'Your page has been successfully updated.'
+                ]);
+            }
+        }
+        return $this->render('security/unauthorized.html.twig');
+    }
+
+    /**
      * @Route("/publish/{id}", name="page_publish")
      */
     public function publishPage(int $id) {
         $user = $this->getUser();
         if ($user) { 
+            $tier_repo = $this->getDoctrine()->getRepository(SubscriptionTier::class);
+            $tier = $tier_repo->findOneBy(
+                array('id' => $id),
+            );
+
             // retrieve page from database
             $page_repo = $this->getDoctrine()->getRepository(Page::class);
-            $page = $page_repo->find($id);
+            $page = $page_repo->find($tier->getid);
 
             if ($page->getPrivate()) {
                 $page->setPrivate(0);

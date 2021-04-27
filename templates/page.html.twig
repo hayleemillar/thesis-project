@@ -16,7 +16,7 @@
 	</div>
 	<div class="text-content">
 		{% if message %}
-			<div class="alert alert-danger">{{ message }}</div>
+			<div class="alert alert-warning">{{ message }}</div>
 		{% endif %}
 		<div class="card w-75 mx-auto" style="margin-top:20px;">
 			<div style="margin:2rem;">
@@ -45,50 +45,52 @@
 				<hr style="margin-top:2em;margin-bottom:2rem;">
 
 				<h3>Subscription Tiers
-					<!-- Button trigger modal -->
-					{% if owner %}
-						<button type="button" class="btn btn-orange mx-auto" onclick="toggleEdit('tiers');">
-							edit
-						</button>
-					{% endif %}
+				<button type="button" class="btn btn-blue mx-auto" onclick="$('#addModal').modal('toggle');">add</button>
 				</h3>
 				<div class="d-flex justify-content-around">
 					{% for tier in tiers %}
-						<div class="card border-dark mb-3" style="width: 18rem;">
+						<div class="card border-dark mb-3" style="width: 18rem;height:20rem;">
 							<div class="card-header text-center">{{ tier.title }}</div>
 							<div class="card-body">
 								<h5 class="card-title text-center">${{ tier.amount }}</h5>
 								<p class="card-text text-center">{{ tier.description }}</p>
 							</div>
-							{% if (sub != null) and (tier.id == sub.getSubTier()) %}
-								{# <a class="btn btn-secondary" href="/subscribe/0/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">unsubscribe</a> #}
-								<a class="btn btn-secondary" href="javascript:subscribe(0, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">unsubscribe</a>
+							{% if owner %}
+								<button type="button" class="btn btn-orange mx-auto" onclick="toggleEditTier({{ tier.id }});" style="width:12rem;margin: 1rem auto;"> edit
+								</button>
 							{% else %}
-								{# <a class="btn btn-primary" href="/subscribe/1/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">select</a> #}
-								{% if sub != null %}
-									<a class="btn btn-info bg-green" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }}, {{ sub.getSubTier() }})" style="width:12rem;margin: 1rem auto;">select</a>
+								{% if (sub != null) and (tier.id == sub.getSubTier()) %}
+									{# <a class="btn btn-secondary" href="/subscribe/0/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">unsubscribe</a> #}
+									<a class="btn btn-secondary" href="javascript:subscribe(0, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">unsubscribe</a>
 								{% else %}
-									<a class="btn btn-info bg-green" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">select</a>
+									{# <a class="btn btn-primary" href="/subscribe/1/{{ page.id }}/{{ tier.id }}" style="width:12rem;margin: 1rem auto;">select</a> #}
+									{% if sub != null %}
+										<a class="btn btn-info bg-green" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }}, {{ sub.getSubTier() }})" style="width:12rem;margin: 1rem auto;">select</a>
+									{% else %}
+										<a class="btn btn-info bg-green" href="javascript:subscribe(1, '{{ tier.title }}', {{ tier.id }})" style="width:12rem;margin: 1rem auto;">select</a>
+									{% endif %}
 								{% endif %}
 							{% endif %}
 						</div>
 					{% endfor %}
 				</div>
 
-				{% if page.private %}
+				{% if page.private and owner %}
 					<div class="d-flex justify-content-between" style="margin:1rem;margin-top:5rem">
 						<a class="btn btn-blue" href="javascript:publish(0)" style="width:12rem;margin: 1rem auto;">Publish</a>
 					</div>
-				{% else %}
+				{% endif %}
+				{% if not page.private and owner %}
 					<div class="d-flex justify-content-between" style="margin:1rem;margin-top:5rem">
 						<a class="btn btn-blue" href="javascript:publish(1)" style="width:12rem;margin: 1rem auto;">Unpublish</a>
 					</div>
 				{% endif %}
 
-				<div class="d-flex justify-content-between" style="margin:1rem;">
-					<a class="btn btn-orange" href="javascript:deletePage()" style="width:12rem;margin: 1rem auto;">Delete</a>
-				</div>
-
+				{% if owner %}
+					<div class="d-flex justify-content-between" style="margin:1rem;">
+						<a class="btn btn-orange" href="javascript:deletePage()" style="width:12rem;margin: 1rem auto;">Delete</a>
+					</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -114,6 +116,51 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="addModalTitle">Add Tier</h5>
+				</div>
+				<div
+					class="modal-body" id="addModalBody">{# dynamic HTML goes here dependent on modal toggle #}
+					<form method="post" action="/add/{{ page.id }}/tier">
+						<div class="row">
+							<div class="col">
+								<label for="form_title" class="required">Title: </label>
+							</div>
+							<div class="col">
+								<input type="text" id="form_title" name="form[title]" required="required" value="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<label for="form_amount" class="required">Amount: </label>
+							</div>
+							<div class="col">
+								<input type="text" id="form_amount" name="form[amount]" required="required" value="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<label for="form_description" class="required">Description: </label>
+							</div>
+							<div class="col">
+								<textarea type="text" id="form_description" name="form[description]" required="required"></textarea>
+							</div>
+						</div>
+						<div class="col text-center">
+							<button type="submit" id="form_save" name="form[save]" class="btn btn-primary">Add Tier</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer" id="addModalFooter">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Modal -->
 	<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalTitle" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -132,7 +179,6 @@
 		</div>
 	</div>
 
-	<script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
 	<script>
 		$(function () {
 			const params = new URLSearchParams(window.location.search);
@@ -145,6 +191,13 @@
 		response = confirm("Are you sure you would like to delete {{ page.title }}?");
 		if (response) {
 			window.location.href = '/delete/{{ page.id }}';
+		}
+	}
+
+	function deleteTier(id, title) {
+		response = confirm(`Are you sure you would like to delete tier titled '${title}'?`);
+		if (response) {
+			window.location.href = `/delete/tier/${id}`;
 		}
 	}
 
@@ -180,6 +233,59 @@
 				}
 				break;
 		}
+	}
+
+	function toggleEditTier(id) {
+		editId = 'editModalBody';
+		titleId = 'editModalTitle';
+		form = '';
+
+		tiers = {};
+		{% for tier in tiers %}
+			tiers['{{ tier.id }}'] = {
+				'title': '{{ tier.title }}',
+				'amount': '{{ tier.amount }}',
+				'description': '{{ tier.description }}',
+			};
+		{% endfor %}
+		tier = tiers[id];
+		
+		document.getElementById(titleId).innerHTML = 'Edit Tier';
+		form = `
+			<form method="post" action="/page/edit/tier/${id}">
+				<div class="row">
+					<div class="col">
+						<label for="form_title" class="required">Title: </label>
+					</div>
+					<div class="col">
+						<input type="text" id="form_title" name="form[title]" required="required" value="${tier['title']}">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<label for="form_amount" class="required">Amount: </label>
+					</div>
+					<div class="col">
+						<input type="text" id="form_amount" name="form[amount]" required="required" value="${tier['amount']}">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<label for="form_description" class="required">Description: </label>
+					</div>
+					<div class="col">
+						<textarea type="text" id="form_description" name="form[description]" required="required">${tier['description']}</textarea>
+					</div>
+				</div>
+				<div class="col">
+					<button type="submit" id="form_save" name="form[save]" class="btn btn-primary" style="float:right;">Save Changes</button>
+					<button type="button" onclick="javascript:deleteTier(${id}, '${tier['title']}')" class="btn btn-secondary" style="float:left;">Delete</button>
+				</div>
+			</form>
+		`;
+
+		document.getElementById(editId).innerHTML = form;
+		$("#editModal").modal('toggle');
 	}
 
 	function toggleEdit(type) {
@@ -245,41 +351,9 @@
 					</form>
 				`;
 				break;
-
-			case 'tiers':
-				document.getElementById(titleId).innerHTML = 'Edit Tiers';
-				form = `
-					<h2>
-						Demo
-					</h2>
-					<p>
-						Try to drag and drop items within lists or between lists.
-					</p>
-					<ul class="list-group" id="demo1">
-						<li class="list-group-item">Cras justo odio</li>
-						<li class="list-group-item">Dapibus ac facilisis in</li>
-						<li class="list-group-item">Morbi leo risus</li>
-						<li class="list-group-item">Porta ac consectetur ac</li>
-						<li class="list-group-item">Vestibulum at eros</li>
-					</ul>
-				`;
-				break;
 		}
 
 		document.getElementById(editId).innerHTML = form;
-
-		if (type == 'tiers') {
-			Sortable.create(demo1, {
-				animation: 100,
-				group: 'list-1',
-				draggable: '.list-group-item',
-				handle: '.list-group-item',
-				sort: true,
-				filter: '.sortable-disabled',
-				chosenClass: 'active'
-			});
-		}
-
 		$("#editModal").modal('toggle');
 	}
 

@@ -63,10 +63,16 @@ class IndexController extends AbstractController
                 $session->set('q', $q);
             } else {
                 $page_repo = $this->getDoctrine()->getRepository(Page::class);
-                $pages = $page_repo->findBy([
-                    'type' => $type,
-                    'private' => 0
-                ]);
+                if ($type == 'all') {
+                    $pages = $page_repo->findBy([
+                        'private' => 0
+                    ]);
+                } else {
+                    $pages = $page_repo->findBy([
+                        'type' => $type,
+                        'private' => 0
+                    ]);
+                }
             }
 
             return $this->render('media-list.html.twig', [
