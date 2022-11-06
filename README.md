@@ -1,5 +1,5 @@
 ## Hello and Welcome!
-You have found my undergraduate thesis, Roots. Please read my thesis paper, HM_Thesis.pdf for an extended explanation of this project in detail. Otherwise, below is the abstract to the paper.
+You have found my undergraduate thesis, Roots. Please read my thesis paper, thesis.pdf for an extended explanation of this project in detail. Otherwise, below is the abstract to the paper.
 
 #### Abstract
 Poorly-targeted advertisements have plagued the Internet for some time now, which has given way for the subscription model to rise in popularity. Advertisements (ads) have the potential to irritate and deter users, as they are vying for the user’s attention alongside a website’s content. Using a subscription model, users are no longer distracted from the creator’s content with ads, thus increasing user happiness.
